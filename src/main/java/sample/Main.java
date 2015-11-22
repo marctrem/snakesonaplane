@@ -1,5 +1,7 @@
 package sample;
 
+import com.snakesonaplane.jeu.Board;
+import com.snakesonaplane.jeu.Dice;
 import com.snakesonaplane.jeu.GameCreator;
 import com.snakesonaplane.jeu.Player;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm1;
@@ -10,15 +12,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("menu.fxml"));
+        primaryStage.setTitle("Snakes on a (two-dimensional) plane");
+        primaryStage.setScene(new Scene(root, 500, 275));
         primaryStage.show();
 
 
@@ -26,6 +27,20 @@ public class Main extends Application {
 
         g.setPlayerTypesLineup(Arrays.asList(Player.PlayerType.ARTIFICIAL, Player.PlayerType.HUMAN, Player.PlayerType.HUMAN));
         g.setMoveAlgorithm(new MoveAlgorithm1());
+
+
+        GameCreator gameCreator = new GameCreator();
+
+        gameCreator
+                .setMoveAlgorithm(new MoveAlgorithm1())
+                .setPlayerTypesLineup(Arrays.asList(Player.PlayerType.ARTIFICIAL, Player.PlayerType.HUMAN, Player.PlayerType.HUMAN, Player.PlayerType.ARTIFICIAL))
+                .setNumberOfCells(36)
+                .setNumberOfLadders(2)
+                .setNumberOfSnakes(2)
+                .setNumberOfFacesOnDice(42);
+
+        gameCreator.create();
+
 
         System.out.println(g);
     }

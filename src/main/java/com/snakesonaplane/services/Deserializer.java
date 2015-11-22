@@ -1,4 +1,4 @@
-package com.snakesonaplane.jeu;
+package com.snakesonaplane.services;
 
 /**
  * Created by marc on 11/22/15.

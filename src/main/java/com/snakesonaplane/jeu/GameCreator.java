@@ -2,22 +2,36 @@ package com.snakesonaplane.jeu;
 
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameCreator {
 
-    private long numberOfFacesOnDice = 0;
-    private long numberOfSquares = 0;
+    private int numberOfFacesOnDice = 0;
+    private long numberOfCells = 0;
     private MoveAlgorithm moveAlgorithm = null;
     private long numberOfLadders = 0;
     private long numberOfSnakes = 0;
     private List<Player.PlayerType> playerTypesLineup;
 
+
+    public Game create() {
+
+        // Todo: do some validity checks.
+
+        Board board = new Board(this.numberOfCells, this.numberOfLadders, this.numberOfSnakes);
+        List<Player> players = new ArrayList<>(playerTypesLineup.size());
+        Dice dice = new Dice(this.numberOfFacesOnDice);
+
+        return new Game(board, players, this.moveAlgorithm, dice);
+
+    }
+
     @Override
     public String toString() {
         return "GameCreator{" +
                 "numberOfFacesOnDice=" + numberOfFacesOnDice +
-                ", numberOfSquares=" + numberOfSquares +
+                ", numberOfCells=" + numberOfCells +
                 ", moveAlgorithm=" + moveAlgorithm +
                 ", numberOfLadders=" + numberOfLadders +
                 ", numberOfSnakes=" + numberOfSnakes +
@@ -25,21 +39,21 @@ public class GameCreator {
                 '}';
     }
 
-    public long getNumberOfFacesOnDice() {
+    public int getNumberOfFacesOnDice() {
         return numberOfFacesOnDice;
     }
 
-    public GameCreator setNumberOfFacesOnDice(long numberOfFacesOnDice) {
+    public GameCreator setNumberOfFacesOnDice(int numberOfFacesOnDice) {
         this.numberOfFacesOnDice = numberOfFacesOnDice;
         return this;
     }
 
-    public long getNumberOfSquares() {
-        return numberOfSquares;
+    public long getNumberOfCells() {
+        return numberOfCells;
     }
 
-    public GameCreator setNumberOfSquares(long numberOfSquares) {
-        this.numberOfSquares = numberOfSquares;
+    public GameCreator setNumberOfCells(long numberOfCells) {
+        this.numberOfCells = numberOfCells;
         return this;
     }
 
