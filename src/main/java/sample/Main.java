@@ -1,9 +1,8 @@
 package sample;
 
-import com.snakesonaplane.jeu.Board;
-import com.snakesonaplane.jeu.Dice;
 import com.snakesonaplane.jeu.GameCreator;
 import com.snakesonaplane.jeu.Player;
+import com.snakesonaplane.exceptions.UnableToCreateGameException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm1;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +38,11 @@ public class Main extends Application {
                 .setNumberOfSnakes(2)
                 .setNumberOfFacesOnDice(42);
 
-        gameCreator.create();
+        try {
+            gameCreator.create();
+        } catch (UnableToCreateGameException e) {
+            System.out.println("Impossible de créer le jeu");
+        }
 
 
         System.out.println(g);

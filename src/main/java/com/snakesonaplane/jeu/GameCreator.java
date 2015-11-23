@@ -1,5 +1,6 @@
 package com.snakesonaplane.jeu;
 
+import com.snakesonaplane.exceptions.UnableToCreateGameException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
 
 import java.util.ArrayList;
@@ -15,9 +16,17 @@ public class GameCreator {
     private List<Player.PlayerType> playerTypesLineup;
 
 
-    public Game create() {
+    public Game create() throws UnableToCreateGameException {
 
         // Todo: do some validity checks.
+        if (this.numberOfFacesOnDice == 0
+                || this.numberOfCells == 0
+                || this.moveAlgorithm == null
+                || this.numberOfLadders == 0
+                || this.numberOfSnakes == 0
+                || this.playerTypesLineup.size() == 0) {
+           throw new UnableToCreateGameException();
+        }
 
         Board board = new Board(this.numberOfCells, this.numberOfLadders, this.numberOfSnakes);
         List<Player> players = new ArrayList<>(playerTypesLineup.size());
@@ -44,7 +53,11 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfFacesOnDice(int numberOfFacesOnDice) {
-        this.numberOfFacesOnDice = numberOfFacesOnDice;
+        if (numberOfFacesOnDice != 6
+                || numberOfFacesOnDice != 8
+                || numberOfFacesOnDice != 20) {
+            this.numberOfFacesOnDice = numberOfFacesOnDice;
+        }
         return this;
     }
 
@@ -53,7 +66,11 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfCells(long numberOfCells) {
-        this.numberOfCells = numberOfCells;
+        if (numberOfCells >= 40 && numberOfCells <= 200
+                && Math.sqrt(numberOfCells) < 0.000000000001
+                && Math.sqrt(numberOfCells) > -0.000000000001) {
+            this.numberOfCells = numberOfCells;
+        }
         return this;
     }
 
@@ -62,7 +79,9 @@ public class GameCreator {
     }
 
     public GameCreator setMoveAlgorithm(MoveAlgorithm moveAlgorithm) {
-        this.moveAlgorithm = moveAlgorithm;
+        if (moveAlgorithm != null) {
+            this.moveAlgorithm = moveAlgorithm;
+        }
         return this;
     }
 
@@ -71,7 +90,9 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfLadders(long numberOfLadders) {
-        this.numberOfLadders = numberOfLadders;
+        if (numberOfLadders > 0) {
+            this.numberOfLadders = numberOfLadders;
+        }
         return this;
     }
 
@@ -80,7 +101,9 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfSnakes(long numberOfSnakes) {
-        this.numberOfSnakes = numberOfSnakes;
+        if (numberOfSnakes > 0) {
+            this.numberOfSnakes = numberOfSnakes;
+        }
         return this;
     }
 
@@ -89,7 +112,9 @@ public class GameCreator {
     }
 
     public GameCreator setPlayerTypesLineup(List<Player.PlayerType> playerTypesLineup) {
-        this.playerTypesLineup = playerTypesLineup;
+        if (playerTypesLineup.size() > 0) {
+            this.playerTypesLineup = playerTypesLineup;
+        }
         return this;
     }
 }
