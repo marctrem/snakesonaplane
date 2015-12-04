@@ -29,6 +29,20 @@ public class Board {
         generateBoard();
     }
 
+    Board() {
+    }
+
+    public long getMove(long currentCell) {
+
+        for (BoardElement elem: this.boardElements) {
+            if (elem.origin == currentCell) {
+                return elem.destination;
+            }
+        }
+
+        return currentCell;
+    }
+
     private void generateBoard() {
         Random r = new Random();
         List<Integer> freeCells = new ArrayList<>();
@@ -69,6 +83,7 @@ public class Board {
         BoardElement elem = new BoardElement();
 
         iOrigin = r.nextInt(freeCells.size());
+        // Make sure the origin of the snake isn't the first cell
         iOrigin = iOrigin == 0 ? 1: iOrigin;
         elem.origin = freeCells.get(iOrigin);
         freeCells.remove(iOrigin);
