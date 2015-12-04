@@ -4,7 +4,7 @@ import com.snakesonaplane.jeu.BoardCell;
 
 public class BoardElement {
 
-    BoardCell origin;
-    BoardCell destination;
+    long origin;
+    long destination;
 
 }
