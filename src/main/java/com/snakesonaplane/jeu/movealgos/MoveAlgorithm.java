@@ -4,5 +4,5 @@ import com.snakesonaplane.jeu.BoardCell;
 
 
 public interface MoveAlgorithm {
-    //BoardCell getMove();
+    long getMove(long currentCell, long boardSize, long diceRoll);
 }
