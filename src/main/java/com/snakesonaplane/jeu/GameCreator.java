@@ -66,9 +66,7 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfCells(long numberOfCells) {
-        if (numberOfCells >= 40 && numberOfCells <= 200
-                && Math.sqrt(numberOfCells) < 0.000000000001
-                && Math.sqrt(numberOfCells) > -0.000000000001) {
+        if (numberOfCells >= 40 && numberOfCells <= 200) {
             this.numberOfCells = numberOfCells;
         }
         return this;

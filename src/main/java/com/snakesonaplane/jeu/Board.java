@@ -19,7 +19,6 @@ public class Board {
     public Board(long numberOfCells, long numberOfLadders, long numberOfSnakes) {
 
         this.lengthOfARow = LongMath.sqrt(numberOfCells, RoundingMode.UNNECESSARY);
-        if ((numberOfLadders + numberOfSnakes) * 2  >  numberOfCells - 1) throw new AssertionError();
 
         this.numberOfCells = numberOfCells;
         this.numberOfLadders = numberOfLadders;

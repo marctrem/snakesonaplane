@@ -75,11 +75,6 @@ public class BoardTest {
         assertEquals("number Of Elements must be 8", 8, board.boardElements.size());
     }
 
-    @Test(expected = AssertionError.class)
-    public void testTooManyElements() {
-        Board board = new Board(16, 4, 4);
-    }
-
     @Test
     public void maxElements() {
         Board board = new Board(16, 4, 3);
