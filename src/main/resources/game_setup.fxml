@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.23115577889447236" maxHeight="-Infinity"
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.3391959798994975" maxHeight="-Infinity"
            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0"
            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65"
            fx:controller="com.snakesonaplane.ctrl.GameSetupCtrl">
@@ -13,6 +13,25 @@
                       AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                       AnchorPane.topAnchor="0.0">
                     <children>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <ChoiceBox fx:id="algoSelectionList" layoutX="4.0" layoutY="34.0"
+                                                   prefWidth="150.0"/>
+                                        <Label layoutX="50.0" layoutY="6.0" text="Win Rule"/>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <ChoiceBox fx:id="numberOfFacesList" layoutX="4.0" layoutY="33.0"
+                                                   prefWidth="150.0"/>
+                                        <Label layoutX="43.0" layoutY="6.0" prefHeight="16.0" prefWidth="72.0"
+                                               text="Dice faces"/>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
                         <Button fx:id="addPlayerBtn" mnemonicParsing="false" text="Add"/>
                         <Button fx:id="removePlayerBtn" mnemonicParsing="false" text="Remove"/>
                         <Button fx:id="playBtn" mnemonicParsing="false" text="Play"/>

@@ -1,15 +1,13 @@
 package com.snakesonaplane.jeu;
 
-import com.google.common.math.LongMath;
-
-import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Board {
 
 
     long numberOfCells;
-    long lengthOfARow;
     long numberOfLadders;
     long numberOfSnakes;
 
@@ -18,8 +16,6 @@ public class Board {
 
 
     public Board(long numberOfCells, long numberOfLadders, long numberOfSnakes) {
-
-        this.lengthOfARow = LongMath.sqrt(numberOfCells, RoundingMode.UNNECESSARY);
 
         this.numberOfCells = numberOfCells;
         this.numberOfLadders = numberOfLadders;
@@ -30,6 +26,8 @@ public class Board {
 
     }
 
+
+    // Be able to instantiate class in tests.
     Board() {
     }
 

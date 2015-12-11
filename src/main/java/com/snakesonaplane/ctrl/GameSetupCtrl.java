@@ -1,6 +1,7 @@
 package com.snakesonaplane.ctrl;
 
 import com.snakesonaplane.jeu.GameMaster;
+import com.sun.javafx.collections.ImmutableObservableList;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,11 @@ public class GameSetupCtrl implements Initializable {
     private Button removePlayerBtn;
     @FXML
     private ListView<PlayerSetupInfo> playerListView;
+    @FXML
+    private ChoiceBox<String> algoSelectionList;
+    @FXML
+    private ChoiceBox<Integer> numberOfFacesList;
+
     private ObservableList<PlayerSetupInfo> playerList = FXCollections.observableArrayList(
             new PlayerSetupInfo(false, ""),
             new PlayerSetupInfo(true, "")
@@ -36,12 +42,17 @@ public class GameSetupCtrl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        this.algoSelectionList.setItems(new ImmutableObservableList<>("Algo 1", "Algo 2", "Algo 3"));
+        this.algoSelectionList.setValue(algoSelectionList.getItems().get(0));
+
+        this.numberOfFacesList.setItems(new ImmutableObservableList<>(6, 8, 20));
+        this.numberOfFacesList.setValue(numberOfFacesList.getItems().get(0));
 
         playerListView.setItems(playerList);
 
         playerListView.setCellFactory(list -> new PlayerCell());
 
-        playBtn.setOnAction(actionEvent -> this.gameMaster.onGameSetupCompleted(this.playerList));
+        playBtn.setOnAction(actionEvent -> this.gameMaster.onGameSetupCompleted(this.playerList, (this.algoSelectionList.getValue()), this.numberOfFacesList.getValue()));
 
         addPlayerBtn.setOnMouseClicked(actionEvent -> {
             playerList.add(new PlayerSetupInfo(false, ""));
@@ -58,6 +69,7 @@ public class GameSetupCtrl implements Initializable {
             System.out.println(playerList);
         }));
 
+
     }
 
     public GameSetupCtrl setGameMaster(GameMaster gameMaster) {
@@ -67,7 +79,7 @@ public class GameSetupCtrl implements Initializable {
 
 
     public interface GameSetupReceiver {
-        void onGameSetupCompleted(List<PlayerSetupInfo> playerSetupInfoList);
+        void onGameSetupCompleted(List<PlayerSetupInfo> playerSetupInfoList, String algoName, Integer numberOfFacesOnDice);
     }
 
     public static class PlayerSetupInfo {

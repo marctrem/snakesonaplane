@@ -37,20 +37,18 @@ public class GameCreator {
     }
 
     public boolean isBuilderValid() throws UnableToCreateGameException {
-        if (this.numberOfFacesOnDice == 0
+        return !(this.numberOfFacesOnDice == 0
                 || this.numberOfCells == 0
                 || this.moveAlgorithm == null
                 || this.numberOfLadders == 0
                 || this.numberOfSnakes == 0
                 || this.playerTypesLineup.size() == 0
                 || !(this.numberOfCells >= 40 && this.numberOfCells <= 200)
-                || this.numberOfFacesOnDice != 6
-                || this.numberOfFacesOnDice != 8
-                || this.numberOfFacesOnDice != 20
-                || this.playerTypesLineup.size() > 0) {
-            return false;
-        }
-        return true;
+
+                || !(this.numberOfFacesOnDice == 6
+                || this.numberOfFacesOnDice == 8
+                || this.numberOfFacesOnDice == 20)
+                || this.playerTypesLineup.size() < 2);
     }
 
     @Override
@@ -88,7 +86,7 @@ public class GameCreator {
     }
 
     public GameCreator setMoveAlgorithm(String moveAlgo) throws UnknownAlgorithmException {
-        if (moveAlgorithm != null) {
+        if (moveAlgo != null) {
             MoveAlgorithmFactoryMethod factoryMethod = new MoveAlgorithmFactoryMethod();
             MoveAlgorithm algo = factoryMethod.getMoveAlgorithm(factoryMethod.getByName(moveAlgo));
             this.moveAlgorithm = algo;
@@ -126,9 +124,9 @@ public class GameCreator {
     public GameCreator loadConfig(String filename) throws FileNotFoundException, YamlException {
         YamlReader reader = new YamlReader(new FileReader(filename));
         Map data = (Map) reader.read();
-        this.setNumberOfCells((long) data.get("nbCells"));
-        this.setNumberOfSnakes((long) data.get("nbSnakes"));
-        this.setNumberOfLadders((long) data.get("nbLadders"));
+        this.setNumberOfCells(Long.parseLong((String) data.get("nbCells")));
+        this.setNumberOfSnakes(Long.parseLong((String) data.get("nbSnakes")));
+        this.setNumberOfLadders(Long.parseLong((String) data.get("nbLadders")));
         return this;
     }
 }
