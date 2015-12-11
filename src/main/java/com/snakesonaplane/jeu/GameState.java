@@ -1,12 +1,19 @@
 package com.snakesonaplane.jeu;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by marc on 11/22/15.
- */
 public class GameState {
 
-    Map<Player, Integer> playerPosition = new TreeMap<>();
+    List<Player> players;
+    long currentPlayer;
+
+    GameState(List<Player> players, long currentPlayer) {
+        players = new ArrayList<>();
+        for (Player p: players) {
+            players.add((Player) p.clone());
+        }
+
+        this.currentPlayer = currentPlayer;
+    }
 }

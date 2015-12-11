@@ -1,10 +1,15 @@
 package com.snakesonaplane.jeu;
 
+import com.esotericsoftware.yamlbeans.YamlException;
+import com.esotericsoftware.yamlbeans.YamlReader;
 import com.snakesonaplane.exceptions.UnableToCreateGameException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GameCreator {
 
@@ -13,7 +18,7 @@ public class GameCreator {
     private MoveAlgorithm moveAlgorithm = null;
     private long numberOfLadders = 0;
     private long numberOfSnakes = 0;
-    private List<Player.PlayerType> playerTypesLineup;
+    private List<Player> playerTypesLineup;
 
 
     public Game create() throws UnableToCreateGameException {
@@ -105,14 +110,22 @@ public class GameCreator {
         return this;
     }
 
-    public List<Player.PlayerType> getPlayerTypesLineup() {
+    public List<Player> getPlayerTypesLineup() {
         return playerTypesLineup;
     }
 
-    public GameCreator setPlayerTypesLineup(List<Player.PlayerType> playerTypesLineup) {
+    public GameCreator setPlayerTypesLineup(List<Player> playerTypesLineup) {
         if (playerTypesLineup.size() > 0) {
             this.playerTypesLineup = playerTypesLineup;
         }
         return this;
+    }
+
+    public void loadConfig(String filename) throws FileNotFoundException, YamlException {
+        YamlReader reader = new YamlReader(new FileReader(filename));
+        Map data = (Map) reader.read();
+        this.setNumberOfCells((long) data.get("nbCells"));
+        this.setNumberOfSnakes((long) data.get("nbSnakes"));
+        this.setNumberOfLadders((long) data.get("nbLadders"));
     }
 }

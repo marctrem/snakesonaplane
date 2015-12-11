@@ -24,7 +24,7 @@ public class Main extends Application {
 
         GameCreator g = new GameCreator();
 
-        g.setPlayerTypesLineup(Arrays.asList(Player.PlayerType.ARTIFICIAL, Player.PlayerType.HUMAN, Player.PlayerType.HUMAN));
+        g.setPlayerTypesLineup(Arrays.asList(new Player("Bob", false), new Player("Roger", true), new Player("Rock", false)));
         g.setMoveAlgorithm(new MoveAlgorithm1());
 
 
@@ -32,7 +32,7 @@ public class Main extends Application {
 
         gameCreator
                 .setMoveAlgorithm(new MoveAlgorithm1())
-                .setPlayerTypesLineup(Arrays.asList(Player.PlayerType.ARTIFICIAL, Player.PlayerType.HUMAN, Player.PlayerType.HUMAN, Player.PlayerType.ARTIFICIAL))
+                .setPlayerTypesLineup(Arrays.asList(new Player("Bob", false), new Player("Roger", true), new Player("Rock", false)))
                 .setNumberOfCells(36)
                 .setNumberOfLadders(2)
                 .setNumberOfSnakes(2)

@@ -16,6 +16,7 @@ public class Board {
     List<BoardElement> boardElements;
 
 
+
     public Board(long numberOfCells, long numberOfLadders, long numberOfSnakes) {
 
         this.lengthOfARow = LongMath.sqrt(numberOfCells, RoundingMode.UNNECESSARY);
@@ -26,6 +27,7 @@ public class Board {
         this.boardElements = new ArrayList<>();
 
         generateBoard();
+
     }
 
     Board() {
@@ -94,4 +96,7 @@ public class Board {
         return elem;
     }
 
+    public long getNumberOfCells() {
+        return numberOfCells;
+    }
 }
