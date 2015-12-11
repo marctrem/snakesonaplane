@@ -123,11 +123,12 @@ public class GameCreator {
         return this;
     }
 
-    public void loadConfig(String filename) throws FileNotFoundException, YamlException {
+    public GameCreator loadConfig(String filename) throws FileNotFoundException, YamlException {
         YamlReader reader = new YamlReader(new FileReader(filename));
         Map data = (Map) reader.read();
         this.setNumberOfCells((long) data.get("nbCells"));
         this.setNumberOfSnakes((long) data.get("nbSnakes"));
         this.setNumberOfLadders((long) data.get("nbLadders"));
+        return this;
     }
 }
