@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.23115577889447236" maxHeight="-Infinity"
+           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0"
+           prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65"
+           fx:controller="com.snakesonaplane.ctrl.GameSetupCtrl">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="78.0" prefWidth="598.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Button fx:id="addPlayerBtn" mnemonicParsing="false" text="Add"/>
+                        <Button fx:id="removePlayerBtn" mnemonicParsing="false" text="Remove"/>
+                        <Button fx:id="playBtn" mnemonicParsing="false" text="Play"/>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0"
+                    prefHeight="100.0" prefWidth="160.0">
+            <children>
+                <ListView fx:id="playerListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0"/>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>

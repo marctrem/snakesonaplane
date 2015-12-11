@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="214.0" spacing="20.0"
+      xmlns="http://javafx.com/javafx/8.0.65" fx:controller="com.snakesonaplane.ctrl.GameSetupCtrl$PlayerCellCtrl">
+    <children>
+        <TextField fx:id="playerNameTxt" promptText="Player name"/>
+        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <CheckBox fx:id="isAiChk" mnemonicParsing="false" text="AI"/>
+        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <ColorPicker fx:id="color" editable="true" promptText="Pick"/>
+    </children>
+</HBox>
