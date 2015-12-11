@@ -24,11 +24,11 @@ public class MoveAlgorithmFactoryMethod {
 
     public Algo getByName(String algoName) {
         switch(algoName) {
-            case "algo1":
+            case "Algo 1":
                 return Algo.MOVE_ALGO_1;
-            case "algo2":
+            case "Algo 2":
                 return Algo.MOVE_ALGO_2;
-            case "algo3":
+            case "Algo 3":
                 return Algo.MOVE_ALGO_3;
             default:
                 throw new RuntimeException();
