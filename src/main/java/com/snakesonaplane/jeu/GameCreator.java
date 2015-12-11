@@ -3,7 +3,9 @@ package com.snakesonaplane.jeu;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.snakesonaplane.exceptions.UnableToCreateGameException;
+import com.snakesonaplane.exceptions.UnknownAlgorithmException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
+import com.snakesonaplane.jeu.movealgos.MoveAlgorithmFactoryMethod;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -23,14 +25,8 @@ public class GameCreator {
 
     public Game create() throws UnableToCreateGameException {
 
-        // Todo: do some validity checks.
-        if (this.numberOfFacesOnDice == 0
-                || this.numberOfCells == 0
-                || this.moveAlgorithm == null
-                || this.numberOfLadders == 0
-                || this.numberOfSnakes == 0
-                || this.playerTypesLineup.size() == 0) {
-           throw new UnableToCreateGameException();
+        if (!isBuilderValid()) {
+            throw new UnableToCreateGameException();
         }
 
         Board board = new Board(this.numberOfCells, this.numberOfLadders, this.numberOfSnakes);
@@ -38,7 +34,23 @@ public class GameCreator {
         Dice dice = new Dice(this.numberOfFacesOnDice);
 
         return new Game(board, players, this.moveAlgorithm, dice);
+    }
 
+    public boolean isBuilderValid() throws UnableToCreateGameException {
+        if (this.numberOfFacesOnDice == 0
+                || this.numberOfCells == 0
+                || this.moveAlgorithm == null
+                || this.numberOfLadders == 0
+                || this.numberOfSnakes == 0
+                || this.playerTypesLineup.size() == 0
+                || !(this.numberOfCells >= 40 && this.numberOfCells <= 200)
+                || this.numberOfFacesOnDice != 6
+                || this.numberOfFacesOnDice != 8
+                || this.numberOfFacesOnDice != 20
+                || this.playerTypesLineup.size() > 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -58,11 +70,7 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfFacesOnDice(int numberOfFacesOnDice) {
-        if (numberOfFacesOnDice != 6
-                || numberOfFacesOnDice != 8
-                || numberOfFacesOnDice != 20) {
-            this.numberOfFacesOnDice = numberOfFacesOnDice;
-        }
+        this.numberOfFacesOnDice = numberOfFacesOnDice;
         return this;
     }
 
@@ -71,9 +79,7 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfCells(long numberOfCells) {
-        if (numberOfCells >= 40 && numberOfCells <= 200) {
-            this.numberOfCells = numberOfCells;
-        }
+        this.numberOfCells = numberOfCells;
         return this;
     }
 
@@ -81,9 +87,11 @@ public class GameCreator {
         return moveAlgorithm;
     }
 
-    public GameCreator setMoveAlgorithm(MoveAlgorithm moveAlgorithm) {
+    public GameCreator setMoveAlgorithm(String moveAlgo) throws UnknownAlgorithmException {
         if (moveAlgorithm != null) {
-            this.moveAlgorithm = moveAlgorithm;
+            MoveAlgorithmFactoryMethod factoryMethod = new MoveAlgorithmFactoryMethod();
+            MoveAlgorithm algo = factoryMethod.getMoveAlgorithm(factoryMethod.getByName(moveAlgo));
+            this.moveAlgorithm = algo;
         }
         return this;
     }
@@ -93,9 +101,7 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfLadders(long numberOfLadders) {
-        if (numberOfLadders > 0) {
-            this.numberOfLadders = numberOfLadders;
-        }
+        this.numberOfLadders = numberOfLadders;
         return this;
     }
 
@@ -104,9 +110,7 @@ public class GameCreator {
     }
 
     public GameCreator setNumberOfSnakes(long numberOfSnakes) {
-        if (numberOfSnakes > 0) {
-            this.numberOfSnakes = numberOfSnakes;
-        }
+        this.numberOfSnakes = numberOfSnakes;
         return this;
     }
 
@@ -115,9 +119,7 @@ public class GameCreator {
     }
 
     public GameCreator setPlayerTypesLineup(List<Player> playerTypesLineup) {
-        if (playerTypesLineup.size() > 0) {
-            this.playerTypesLineup = playerTypesLineup;
-        }
+        this.playerTypesLineup = playerTypesLineup;
         return this;
     }
 
