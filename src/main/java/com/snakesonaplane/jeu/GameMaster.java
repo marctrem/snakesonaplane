@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,7 +42,7 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
             gameSetupCtrl.setGameMaster(this);
 
             gameStage.setTitle("Snakes on a (two-dimensional) plane");
-            this.gameStage.setScene(new Scene(root, 500, 275));
+            this.gameStage.setScene(new Scene(root, 800, 600));
             //.show();
 
         } catch (IOException e) {
@@ -61,7 +60,7 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
             this.boardController = loader.getController();
             this.boardController.setGameMaster(this);
             this.gameStage.setTitle("Snakes on a (two-dimensional) plane");
-            this.gameStage.setScene(new Scene(root, 500, 275));
+            this.gameStage.setScene(new Scene(root, 800, 600));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,16 +70,8 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
 
 
     @Override
-    public void onGameSetupCompleted(List<GameSetupCtrl.PlayerSetupInfo> playerSetupInfoList, String algoName, Integer numberOfFacesOnDice) {
+    public void onGameSetupCompleted(List<Player> players, String algoName, Integer numberOfFacesOnDice) {
         System.out.println("Setup completed!");
-
-        List<Player> gamePlayers = new ArrayList<>(playerSetupInfoList.size());
-
-        // Build the players list
-        for (GameSetupCtrl.PlayerSetupInfo playerSetup : playerSetupInfoList) {
-            gamePlayers.add(new Player(playerSetup.name, playerSetup.isAi)); // Todo: add color
-        }
-
 
         GameCreator gameCreator = new GameCreator();
 
@@ -88,7 +79,7 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
             gameCreator
                     .loadConfig("game_config/game_config.yaml")
                     .setMoveAlgorithm(algoName)
-                    .setPlayerTypesLineup(gamePlayers)
+                    .setPlayerTypesLineup(players)
                     .setNumberOfFacesOnDice(numberOfFacesOnDice);
 
             this.game = gameCreator.create();

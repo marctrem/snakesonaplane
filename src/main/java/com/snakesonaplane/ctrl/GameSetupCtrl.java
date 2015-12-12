@@ -1,6 +1,8 @@
 package com.snakesonaplane.ctrl;
 
 import com.snakesonaplane.jeu.GameMaster;
+import com.snakesonaplane.jeu.Player;
+import com.snakesonaplane.wrappers.ui.javafx.ColorWrapper;
 import com.sun.javafx.collections.ImmutableObservableList;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,7 +16,10 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.WeakHashMap;
 
 
 public class GameSetupCtrl implements Initializable {
@@ -27,17 +32,19 @@ public class GameSetupCtrl implements Initializable {
     @FXML
     private Button removePlayerBtn;
     @FXML
-    private ListView<PlayerSetupInfo> playerListView;
+    private ListView<Player> playerListView;
     @FXML
     private ChoiceBox<String> algoSelectionList;
     @FXML
     private ChoiceBox<Integer> numberOfFacesList;
 
-    private ObservableList<PlayerSetupInfo> playerList = FXCollections.observableArrayList(
-            new PlayerSetupInfo(false, ""),
-            new PlayerSetupInfo(true, "")
+    private ObservableList<Player> playerList = FXCollections.observableArrayList(
+            new Player("Player 1", false),
+            new Player("Player 2", true)
     );
-    private Map<PlayerSetupInfo, PlayerCellCtrl> itemCtrlMapping = new WeakHashMap<>();
+
+
+    private Map<Player, PlayerCellCtrl> itemCtrlMapping = new WeakHashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,15 +62,16 @@ public class GameSetupCtrl implements Initializable {
         playBtn.setOnAction(actionEvent -> this.gameMaster.onGameSetupCompleted(this.playerList, (this.algoSelectionList.getValue()), this.numberOfFacesList.getValue()));
 
         addPlayerBtn.setOnMouseClicked(actionEvent -> {
-            playerList.add(new PlayerSetupInfo(false, ""));
+            playerList.add(new Player("", false));
             System.out.println(playerList);
         });
+
 
         removePlayerBtn.setOnAction(actionEvent -> Platform.runLater(() -> {
 
             int itemCount = playerList.size();
 
-            if (itemCount > 0) {
+            if (itemCount > 2) {
                 playerList.remove(playerListView.getSelectionModel().getSelectedItem());
             }
             System.out.println(playerList);
@@ -79,36 +87,9 @@ public class GameSetupCtrl implements Initializable {
 
 
     public interface GameSetupReceiver {
-        void onGameSetupCompleted(List<PlayerSetupInfo> playerSetupInfoList, String algoName, Integer numberOfFacesOnDice);
+        void onGameSetupCompleted(List<Player> playerSetupInfoList, String algoName, Integer numberOfFacesOnDice);
     }
 
-    public static class PlayerSetupInfo {
-
-        // PRNG for initial color
-        private static Random random = new Random();
-
-
-        public boolean isAi;
-        public String name;
-        public Color color;
-
-        public PlayerSetupInfo(boolean isAi, String name) {
-            this.isAi = isAi;
-            this.name = name;
-            this.color = new Color(random.nextDouble(), random.nextDouble(), random.nextDouble(), 1.0d);
-
-
-        }
-
-        @Override
-        public String toString() {
-            return "PlayerSetupInfo{" +
-                    "isAi=" + isAi +
-                    ", name='" + name + '\'' +
-                    ", color=" + color +
-                    '}';
-        }
-    }
 
     public static class PlayerCellCtrl implements Initializable {
 
@@ -121,32 +102,32 @@ public class GameSetupCtrl implements Initializable {
         public CheckBox isAiChk;
         @FXML
         public ColorPicker color;
-        private PlayerSetupInfo playerSetupInfo;
+        private Player playerSetupInfo;
 
-        public PlayerCellCtrl setPlayerSetupInfo(PlayerSetupInfo playerSetupInfo) {
+        public PlayerCellCtrl setPlayerSetupInfo(Player playerSetupInfo) {
             this.playerSetupInfo = playerSetupInfo;
 
-            this.playerNameTxt.setText(playerSetupInfo.name);
-            this.isAiChk.setSelected(playerSetupInfo.isAi);
-            this.color.setValue(playerSetupInfo.color);
+            this.playerNameTxt.setText(playerSetupInfo.getName());
+            this.isAiChk.setSelected(playerSetupInfo.isAi());
+            this.color.setValue((Color) playerSetupInfo.getColor().getRawColorObject());
             return this;
         }
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
 
-            playerNameTxt.setOnKeyReleased(keyEvent -> playerSetupInfo.name = playerNameTxt.getText());
-            isAiChk.setOnMouseClicked(actionEvent -> playerSetupInfo.isAi = isAiChk.isSelected());
-            color.setOnAction(actionEvent -> playerSetupInfo.color = color.getValue());
+            playerNameTxt.setOnKeyReleased(keyEvent -> playerSetupInfo.setName(playerNameTxt.getText()));
+            isAiChk.setOnMouseClicked(actionEvent -> playerSetupInfo.setAi(isAiChk.isSelected()));
+            color.setOnAction(actionEvent -> playerSetupInfo.setColor(new ColorWrapper(color.getValue())));
         }
     }
 
-    class PlayerCell extends ListCell<PlayerSetupInfo> {
+    class PlayerCell extends ListCell<Player> {
 
         private final URL CELL_RESOURCE_URL = PlayerCell.class.getClassLoader().getResource("player_cell.fxml");
 
         @Override
-        public void updateItem(PlayerSetupInfo item, boolean empty) {
+        public void updateItem(Player item, boolean empty) {
             super.updateItem(item, empty);
 
             if (empty || item == null) {
