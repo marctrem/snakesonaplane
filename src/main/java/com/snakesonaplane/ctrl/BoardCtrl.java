@@ -35,7 +35,7 @@ public class BoardCtrl implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         playBtn.setOnAction(actionEvent -> {
-            System.out.println("PLAY!");
+            gameMaster.onDiceRolled();
         });
     }
 
@@ -109,4 +109,5 @@ public class BoardCtrl implements Initializable {
     public interface DiceRollListener {
         void onDiceRolled();
     }
+
 }

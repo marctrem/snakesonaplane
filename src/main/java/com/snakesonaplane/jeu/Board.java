@@ -54,7 +54,7 @@ public class Board {
             testSnake.add(boardElements.get(i).origin);
         }
 
-        if (snakesAreProperlyArranged(testSnake)) {
+        if (!snakesAreProperlyArranged(testSnake)) {
             return false;
         }
 

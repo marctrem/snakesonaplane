@@ -22,7 +22,6 @@ public class GameMaster implements
 
 {
 
-
     private Stage gameStage;
     private BoardCtrl boardController;
 
@@ -98,6 +97,13 @@ public class GameMaster implements
 
             this.boardController.setupBoard(this.game.board);
 
+
+            if (this.game.players.get((int) game.playerToPlay).isAi()) {
+                gameLoop();
+            } else {
+                onPlayerReadyToPlay();
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (YamlException e) {
@@ -111,10 +117,26 @@ public class GameMaster implements
 
     }
 
+    public void gameLoop() {
+        boolean victory = false;
+        victory = game.play();
+
+        while (game.players.get((int) game.playerToPlay).isAi() && !victory) {
+            victory = game.play();
+        }
+
+        if (victory) {
+            // Todo: stuff to do on victory
+            System.out.println("Player " + game.players.get((int) game.playerToPlay).getName() + " WON !");
+        } else {
+            onPlayerReadyToPlay();
+        }
+    }
+
     @Override
     public void onDiceRolled() {
         this.boardController.setPlayBtnClickable(false);
-        // todo: user pressed on play button
+        gameLoop();
     }
 
     @Override

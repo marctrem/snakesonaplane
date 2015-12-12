@@ -30,10 +30,14 @@ public class Game {
     public boolean play() {
         long diceRoll = this.dice.roll();
         Player player = this.players.get((int) this.playerToPlay);
+        System.out.println("It's " + player.getName() + "'s turn");
+        System.out.println("Actual cell : " + player.getPosition());
         long pos = player.getPosition();
+        System.out.println("Dice roll is : " + diceRoll);
 
         pos = this.moveAlgorithm.getMove(pos, this.board.numberOfCells, diceRoll);
         player.setPosition(this.board.getMove(pos));
+        System.out.println("Arrival cell : " + player.getPosition());
 
         if (player.getPosition() == this.board.numberOfCells) {
             return true;

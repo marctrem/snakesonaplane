@@ -30,10 +30,9 @@ public class GameCreator {
         }
 
         Board board = new Board(this.numberOfCells, this.numberOfLadders, this.numberOfSnakes);
-        List<Player> players = new ArrayList<>(playerTypesLineup.size());
         Dice dice = new Dice(this.numberOfFacesOnDice);
 
-        return new Game(board, players, this.moveAlgorithm, dice);
+        return new Game(board, this.playerTypesLineup, this.moveAlgorithm, dice);
     }
 
     public boolean isBuilderValid() throws UnableToCreateGameException {
