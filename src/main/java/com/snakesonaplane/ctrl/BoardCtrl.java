@@ -1,6 +1,8 @@
 package com.snakesonaplane.ctrl;
 
 import com.google.common.math.LongMath;
+import com.snakesonaplane.jeu.Board;
+import com.snakesonaplane.jeu.BoardElement;
 import com.snakesonaplane.jeu.GameMaster;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,7 +39,13 @@ public class BoardCtrl implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        int boardSize = 26;
+
+        playBtn.setOnAction(actionEvent -> {
+            System.out.println("PLAY!");
+        });
+    }
+
+    public void setupGrid(int boardSize) {
         graphicalCells = new ArrayList<Rectangle>(boardSize);
 
         long lowerSquare = LongMath.sqrt(boardSize, RoundingMode.FLOOR);
@@ -55,14 +63,6 @@ public class BoardCtrl implements Initializable {
                 cell.heightProperty().bind(this.boardGrid.heightProperty().divide(lowerSquare));
             }
         }
-
-
-        playBtn.setOnAction(actionEvent -> {
-            System.out.println("PLAY!");
-        });
-
-        drawSnake(4, 13);
-        drawLadder(2, 20);
     }
 
     public void drawLine(Color color, int fromCell, int toCell) {
@@ -81,6 +81,19 @@ public class BoardCtrl implements Initializable {
         line.setStroke(color);
         line.setStrokeWidth(2.0d);
         line.toFront();
+    }
+
+    public void setupBoard(Board board) {
+
+        this.setupGrid(board.getNumberOfCells());
+
+        for (BoardElement boardElement : board.getBoardElements()) {
+            if (boardElement.destination > boardElement.origin) {
+                this.drawLadder(boardElement.origin, boardElement.destination);
+            } else {
+                this.drawSnake(boardElement.origin, boardElement.destination);
+            }
+        }
     }
 
 

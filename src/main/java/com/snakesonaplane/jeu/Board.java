@@ -7,15 +7,14 @@ import java.util.Random;
 public class Board {
 
 
-    long numberOfCells;
+    int numberOfCells;
     long numberOfLadders;
     long numberOfSnakes;
 
     List<BoardElement> boardElements;
 
 
-
-    public Board(long numberOfCells, long numberOfLadders, long numberOfSnakes) {
+    public Board(int numberOfCells, long numberOfLadders, long numberOfSnakes) {
 
         this.numberOfCells = numberOfCells;
         this.numberOfLadders = numberOfLadders;
@@ -94,7 +93,12 @@ public class Board {
         return elem;
     }
 
-    public long getNumberOfCells() {
+
+    public List<BoardElement> getBoardElements() {
+        return boardElements;
+    }
+
+    public int getNumberOfCells() {
         return numberOfCells;
     }
 }

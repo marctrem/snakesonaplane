@@ -19,6 +19,7 @@ import java.util.List;
 public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
 
     private Stage gameStage;
+    private BoardCtrl boardController;
 
     private Game game;
 
@@ -55,9 +56,10 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("board.fxml"));
+
             Parent root = loader.load();
-            BoardCtrl boardCtrl = loader.getController();
-            boardCtrl.setGameMaster(this);
+            this.boardController = loader.getController();
+            this.boardController.setGameMaster(this);
             this.gameStage.setTitle("Snakes on a (two-dimensional) plane");
             this.gameStage.setScene(new Scene(root, 500, 275));
 
@@ -91,7 +93,13 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
 
             this.game = gameCreator.create();
 
+
             System.out.println(this.game);
+
+            spawnBoardWindow();
+
+
+            this.boardController.setupBoard(this.game.board);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -104,6 +112,5 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
         }
 
 
-        spawnBoardWindow();
     }
 }

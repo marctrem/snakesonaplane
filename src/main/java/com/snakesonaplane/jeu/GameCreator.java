@@ -16,7 +16,7 @@ import java.util.Map;
 public class GameCreator {
 
     private int numberOfFacesOnDice = 0;
-    private long numberOfCells = 0;
+    private int numberOfCells = 0;
     private MoveAlgorithm moveAlgorithm = null;
     private long numberOfLadders = 0;
     private long numberOfSnakes = 0;
@@ -76,7 +76,7 @@ public class GameCreator {
         return numberOfCells;
     }
 
-    public GameCreator setNumberOfCells(long numberOfCells) {
+    public GameCreator setNumberOfCells(int numberOfCells) {
         this.numberOfCells = numberOfCells;
         return this;
     }
@@ -124,7 +124,7 @@ public class GameCreator {
     public GameCreator loadConfig(String filename) throws FileNotFoundException, YamlException {
         YamlReader reader = new YamlReader(new FileReader(filename));
         Map data = (Map) reader.read();
-        this.setNumberOfCells(Long.parseLong((String) data.get("nbCells")));
+        this.setNumberOfCells(Integer.parseInt((String) data.get("nbCells")));
         this.setNumberOfSnakes(Long.parseLong((String) data.get("nbSnakes")));
         this.setNumberOfLadders(Long.parseLong((String) data.get("nbLadders")));
         return this;
