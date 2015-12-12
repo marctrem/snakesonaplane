@@ -67,7 +67,7 @@ public class BoardTest {
     @Test
     public void testBoardCreation() {
 
-        Board board = new Board(100L, 4L, 4L);
+        Board board = new Board(100, 4L, 4L);
 
         assertEquals("numberOfCells must be 100", 100, board.numberOfCells);
         assertEquals("numberOfSnakes must be 4", 4, board.numberOfSnakes);

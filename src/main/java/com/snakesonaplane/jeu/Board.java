@@ -1,6 +1,7 @@
 package com.snakesonaplane.jeu;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -21,10 +22,8 @@ public class Board {
         this.numberOfSnakes = numberOfSnakes;
         this.boardElements = new ArrayList<>();
 
-        generateBoard();
-
+        while (!generateBoard());
     }
-
 
     // Be able to instantiate class in tests.
     Board() {
@@ -41,9 +40,10 @@ public class Board {
         return currentCell;
     }
 
-    private void generateBoard() {
+    private boolean generateBoard() {
         Random r = new Random();
         List<Integer> freeCells = new ArrayList<>();
+        List<Integer> testSnake = new ArrayList<>((int) this.numberOfSnakes);
 
         for (int i = 0; i < this.numberOfCells; i++) {
             freeCells.add(i);
@@ -51,11 +51,42 @@ public class Board {
 
         for (int i = 0; i < this.numberOfSnakes; i++) {
             boardElements.add(createSnake(r, freeCells));
+            testSnake.add(boardElements.get(i).origin);
+        }
+
+        testSnake.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer i1, Integer i2) {
+                return i1 - i2;
+            }
+        });
+
+        if (snakesAreProperlyArranged(testSnake)) {
+            return false;
         }
 
         for (int i = 0; i < this.numberOfLadders; i++) {
             boardElements.add(createLadder(r, freeCells));
         }
+
+        return true;
+    }
+
+    private boolean snakesAreProperlyArranged(List<Integer> testSnake) {
+        int contiguousCounter = 0;
+
+        for (int i = 0; i < testSnake.size() - 1; i++) {
+            if (testSnake.get(i + 1) - testSnake.get(i) == 1) {
+                contiguousCounter++;
+                if (contiguousCounter == 5) {
+                    return false;
+                }
+            } else {
+                contiguousCounter = 0;
+            }
+        }
+
+        return true;
     }
 
     private BoardElement createLadder(Random r, List<Integer> freeCells) {
