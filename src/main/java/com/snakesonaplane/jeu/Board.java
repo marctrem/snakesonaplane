@@ -54,13 +54,6 @@ public class Board {
             testSnake.add(boardElements.get(i).origin);
         }
 
-        testSnake.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer i1, Integer i2) {
-                return i1 - i2;
-            }
-        });
-
         if (snakesAreProperlyArranged(testSnake)) {
             return false;
         }
@@ -72,8 +65,15 @@ public class Board {
         return true;
     }
 
-    private boolean snakesAreProperlyArranged(List<Integer> testSnake) {
+    boolean snakesAreProperlyArranged(List<Integer> testSnake) {
         int contiguousCounter = 0;
+
+        testSnake.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer i1, Integer i2) {
+                return i1 - i2;
+            }
+        });
 
         for (int i = 0; i < testSnake.size() - 1; i++) {
             if (testSnake.get(i + 1) - testSnake.get(i) == 1) {
