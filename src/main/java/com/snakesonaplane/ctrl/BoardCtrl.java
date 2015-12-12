@@ -24,25 +24,23 @@ public class BoardCtrl implements Initializable {
 
     @FXML
     private GridPane boardGrid;
-
     @FXML
     private AnchorPane boardAnchorPane;
-
     @FXML
     private Button playBtn;
-
     private List<Rectangle> graphicalCells;
-
     private GameMaster gameMaster;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-
         playBtn.setOnAction(actionEvent -> {
             System.out.println("PLAY!");
         });
+    }
+
+    public void setPlayBtnClickable(boolean clickable) {
+        this.playBtn.setDisable(!clickable);
     }
 
     public void setupGrid(int boardSize) {
@@ -96,7 +94,6 @@ public class BoardCtrl implements Initializable {
         }
     }
 
-
     public void drawLadder(int fromCell, int toCell) {
         drawLine(Color.GREEN, fromCell, toCell);
     }
@@ -107,5 +104,9 @@ public class BoardCtrl implements Initializable {
 
     public void setGameMaster(GameMaster gameMaster) {
         this.gameMaster = gameMaster;
+    }
+
+    public interface DiceRollListener {
+        void onDiceRolled();
     }
 }

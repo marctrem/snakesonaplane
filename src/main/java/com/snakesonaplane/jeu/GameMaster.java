@@ -15,7 +15,13 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
+public class GameMaster implements
+        GameSetupCtrl.GameSetupReceiver,
+        BoardCtrl.DiceRollListener,
+        Game.PlayerReadyCallback
+
+{
+
 
     private Stage gameStage;
     private BoardCtrl boardController;
@@ -103,5 +109,16 @@ public class GameMaster implements GameSetupCtrl.GameSetupReceiver {
         }
 
 
+    }
+
+    @Override
+    public void onDiceRolled() {
+        this.boardController.setPlayBtnClickable(false);
+        // todo: user pressed on play button
+    }
+
+    @Override
+    public void onPlayerReadyToPlay() {
+        this.boardController.setPlayBtnClickable(true);
     }
 }

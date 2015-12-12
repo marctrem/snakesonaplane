@@ -37,13 +37,10 @@ public class GameSetupCtrl implements Initializable {
     private ChoiceBox<String> algoSelectionList;
     @FXML
     private ChoiceBox<Integer> numberOfFacesList;
-
     private ObservableList<Player> playerList = FXCollections.observableArrayList(
             new Player("Player 1", false),
             new Player("Player 2", true)
     );
-
-
     private Map<Player, PlayerCellCtrl> itemCtrlMapping = new WeakHashMap<>();
 
     @Override
@@ -76,8 +73,6 @@ public class GameSetupCtrl implements Initializable {
             }
             System.out.println(playerList);
         }));
-
-
     }
 
     public GameSetupCtrl setGameMaster(GameMaster gameMaster) {
@@ -85,11 +80,9 @@ public class GameSetupCtrl implements Initializable {
         return this;
     }
 
-
     public interface GameSetupReceiver {
         void onGameSetupCompleted(List<Player> playerSetupInfoList, String algoName, Integer numberOfFacesOnDice);
     }
-
 
     public static class PlayerCellCtrl implements Initializable {
 

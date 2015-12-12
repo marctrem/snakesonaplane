@@ -1,29 +1,21 @@
 package com.snakesonaplane.jeu;
 
-import com.esotericsoftware.yamlbeans.YamlException;
-import com.esotericsoftware.yamlbeans.YamlReader;
 import com.snakesonaplane.exceptions.GameStateOutOfBoundException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Game {
 
     final static long MAX_STATES = 10;
-
     List<GameState> gameStates;
     int currentGameState = -1;
     long playerToPlay = 0;
-
     Board board;
     List<Player> players;
     Dice dice;
     MoveAlgorithm moveAlgorithm;
-
     Game(Board board, List<Player> players, MoveAlgorithm moveAlgorithm, Dice dice) {
 
         this.board = board;
@@ -75,7 +67,7 @@ public class Game {
         this.currentGameState++;
 
         // Erase next states
-        for (long i = this.currentGameState; i < this.MAX_STATES; i++) {
+        for (long i = this.currentGameState; i < MAX_STATES; i++) {
             this.gameStates.remove(i);
         }
 
@@ -93,5 +85,9 @@ public class Game {
 
     public long getPlayerToPlay() {
         return playerToPlay;
+    }
+
+    public interface PlayerReadyCallback {
+        void onPlayerReadyToPlay();
     }
 }

@@ -9,7 +9,8 @@
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
-                <Button fx:id="playBtn" layoutX="10.0" layoutY="351.0" mnemonicParsing="false" text="Play"/>
+                <Button fx:id="playBtn" disable="true" layoutX="10.0" layoutY="14.0" mnemonicParsing="false"
+                        text="Play"/>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="boardAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
