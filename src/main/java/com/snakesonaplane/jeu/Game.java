@@ -1,19 +1,17 @@
 package com.snakesonaplane.jeu;
 
-import com.snakesonaplane.exceptions.GameStateOutOfBoundException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
 
-    final static long MAX_STATES = 10;
-    int currentGameStateIndex = -1;
     Board board;
 
     GameState currentGameState;
-    List<GameMemento> gameMementos;
+    GameMementoManager gameMementoManager;
+    Dice dice;
+    MoveAlgorithm moveAlgorithm;
 
     class GameMemento {
         private GameState state;
@@ -31,8 +29,6 @@ public class Game {
         }
     }
 
-    Dice dice;
-    MoveAlgorithm moveAlgorithm;
     Game(Board board, List<Player> players, MoveAlgorithm moveAlgorithm, Dice dice) {
 
         this.board = board;
@@ -43,10 +39,8 @@ public class Game {
 
         this.currentGameState = memento.getState();
 
-        this.gameMementos = new ArrayList<>(10);
-
-        this.gameMementos.add(memento);
-        ++this.currentGameStateIndex;
+        this.gameMementoManager = new GameMementoManager();
+        this.gameMementoManager.addMemento(memento);
     }
 
     public boolean play() {
@@ -68,49 +62,11 @@ public class Game {
         this.currentGameState.currentPlayer =
                 (this.currentGameState.currentPlayer + 1) % this.currentGameState.players.size();
 
-        this.addCurrentState();
+        this.gameMementoManager.addMemento(this.createMemento(this.getPlayerList(), this.getPlayerToPlay()));
 
         return false;
     }
 
-    public GameMemento getPreviousState() throws GameStateOutOfBoundException {
-        GameState state;
-        if (this.currentGameStateIndex == -1) {
-            throw new GameStateOutOfBoundException();
-        }
-        return this.gameMementos.get(this.currentGameStateIndex--);
-    }
-
-    public GameMemento getNextState() throws GameStateOutOfBoundException {
-        GameState state;
-        if (this.gameMementos.size() <= this.currentGameStateIndex + 1) {
-            throw new GameStateOutOfBoundException();
-        }
-
-        return this.gameMementos.get(++this.currentGameStateIndex);
-    }
-
-    public void addCurrentState() {
-        this.gameMementos.add(new GameMemento(this.currentGameState.players, this.currentGameState.currentPlayer));
-
-        this.currentGameStateIndex++;
-
-        // Erase next states
-        for (long i = this.currentGameStateIndex; i < MAX_STATES; i++) {
-            this.gameMementos.remove(i);
-        }
-
-        if (this.gameMementos.size() > 10) {
-            List<GameMemento> new_list = new ArrayList<>(10);
-
-            for (int i = 1; i < this.gameMementos.size(); i++) {
-               new_list.add(this.gameMementos.get(i));
-            }
-
-            this.gameMementos = new_list;
-            this.currentGameStateIndex = 9;
-        }
-    }
 
     public long getPlayerToPlay() {
         return this.currentGameState.currentPlayer;
@@ -125,5 +81,9 @@ public class Game {
 
     public GameMemento createMemento(List<Player> players, long currentPlayer) {
         return new GameMemento(players, currentPlayer);
+    }
+
+    public void setMemento(GameMemento memento) {
+        this.currentGameState = memento.getState();
     }
 }
