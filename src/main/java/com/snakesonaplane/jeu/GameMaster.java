@@ -3,6 +3,7 @@ package com.snakesonaplane.jeu;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.snakesonaplane.ctrl.BoardCtrl;
 import com.snakesonaplane.ctrl.GameSetupCtrl;
+import com.snakesonaplane.exceptions.GameStateOutOfBoundException;
 import com.snakesonaplane.exceptions.UnableToCreateGameException;
 import com.snakesonaplane.exceptions.UnknownAlgorithmException;
 import javafx.fxml.FXMLLoader;
@@ -145,16 +146,22 @@ public class GameMaster implements
     }
 
     public void onUndoRequested() {
+        try {
+            this.game.setMemento(this.game.gameMementoManager.getPreviousMemento());
+        } catch (GameStateOutOfBoundException e) {}
     }
 
     public void onRedoRequested() {
+        try {
+            this.game.setMemento(this.game.gameMementoManager.getNextMemento());
+        } catch (GameStateOutOfBoundException e) {}
     }
 
     public boolean isUndoAvailable() {
-        return true;
+        return this.game.gameMementoManager.hasPreviousMemento();
     }
 
     public boolean isRedoAvailable() {
-        return false;
+        return this.game.gameMementoManager.hasNextMemento();
     }
 }
