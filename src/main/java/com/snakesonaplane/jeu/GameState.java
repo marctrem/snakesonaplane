@@ -9,9 +9,9 @@ public class GameState {
     long currentPlayer;
 
     GameState(List<Player> players, long currentPlayer) {
-        players = new ArrayList<>();
+        this.players = new ArrayList<>();
         for (Player p: players) {
-            players.add((Player) p.clone());
+            this.players.add((Player) p.clone());
         }
 
         this.currentPlayer = currentPlayer;

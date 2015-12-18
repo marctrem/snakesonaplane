@@ -9,27 +9,49 @@ import java.util.List;
 public class Game {
 
     final static long MAX_STATES = 10;
-    List<GameState> gameStates;
-    int currentGameState = -1;
-    long playerToPlay = 0;
+    int currentGameStateIndex = -1;
     Board board;
-    List<Player> players;
+
+    GameState currentGameState;
+    List<GameMemento> gameMementos;
+
+    class GameMemento {
+        private GameState state;
+
+        private GameMemento(List<Player> players, long currentPlayer) {
+            this.state = new GameState(players, currentPlayer);
+        }
+
+        GameState getState() {
+            return this.state;
+        }
+
+        void setState(GameState state) {
+            this.state = state;
+        }
+    }
+
     Dice dice;
     MoveAlgorithm moveAlgorithm;
     Game(Board board, List<Player> players, MoveAlgorithm moveAlgorithm, Dice dice) {
 
         this.board = board;
-        this.players = players;
         this.moveAlgorithm = moveAlgorithm;
         this.dice = dice;
 
-        this.gameStates = new ArrayList<>(10);
-        this.addCurrentState();
+        GameMemento memento = new GameMemento(players, 0);
+
+        this.currentGameState = memento.getState();
+
+        this.gameMementos = new ArrayList<>(10);
+
+        this.gameMementos.add(memento);
+        ++this.currentGameStateIndex;
     }
 
     public boolean play() {
         long diceRoll = this.dice.roll();
-        Player player = this.players.get((int) this.playerToPlay);
+        Player player = this.currentGameState.players.get((int) this.currentGameState.currentPlayer);
         System.out.println("It's " + player.getName() + "'s turn");
         System.out.println("Actual cell : " + player.getPosition());
         long pos = player.getPosition();
@@ -43,55 +65,65 @@ public class Game {
             return true;
         }
 
-        this.playerToPlay = (this.playerToPlay + 1) % players.size();
+        this.currentGameState.currentPlayer =
+                (this.currentGameState.currentPlayer + 1) % this.currentGameState.players.size();
+
         this.addCurrentState();
 
         return false;
     }
 
-    public GameState getPreviousState() throws GameStateOutOfBoundException {
+    public GameMemento getPreviousState() throws GameStateOutOfBoundException {
         GameState state;
-        if (this.currentGameState == -1) {
+        if (this.currentGameStateIndex == -1) {
             throw new GameStateOutOfBoundException();
         }
-        return this.gameStates.get(this.currentGameState--);
+        return this.gameMementos.get(this.currentGameStateIndex--);
     }
 
-    public GameState getNextState() throws GameStateOutOfBoundException {
+    public GameMemento getNextState() throws GameStateOutOfBoundException {
         GameState state;
-        if (this.gameStates.size() <= this.currentGameState + 1) {
+        if (this.gameMementos.size() <= this.currentGameStateIndex + 1) {
             throw new GameStateOutOfBoundException();
         }
 
-        return this.gameStates.get(++this.currentGameState);
+        return this.gameMementos.get(++this.currentGameStateIndex);
     }
 
     public void addCurrentState() {
-        this.gameStates.add(new GameState(this.players, this.playerToPlay));
-        this.currentGameState++;
+        this.gameMementos.add(new GameMemento(this.currentGameState.players, this.currentGameState.currentPlayer));
+
+        this.currentGameStateIndex++;
 
         // Erase next states
-        for (long i = this.currentGameState; i < MAX_STATES; i++) {
-            this.gameStates.remove(i);
+        for (long i = this.currentGameStateIndex; i < MAX_STATES; i++) {
+            this.gameMementos.remove(i);
         }
 
-        if (this.gameStates.size() > 10) {
-            List<GameState> new_list = new ArrayList<>();
+        if (this.gameMementos.size() > 10) {
+            List<GameMemento> new_list = new ArrayList<>(10);
 
-            for (int i = 1; i < this.gameStates.size(); i++) {
-               new_list.add(this.gameStates.get(i));
+            for (int i = 1; i < this.gameMementos.size(); i++) {
+               new_list.add(this.gameMementos.get(i));
             }
 
-            this.gameStates = new_list;
-            this.currentGameState = 9;
+            this.gameMementos = new_list;
+            this.currentGameStateIndex = 9;
         }
     }
 
     public long getPlayerToPlay() {
-        return playerToPlay;
+        return this.currentGameState.currentPlayer;
+    }
+    public List<Player> getPlayerList() {
+        return this.currentGameState.players;
     }
 
     public interface PlayerReadyCallback {
         void onPlayerReadyToPlay();
+    }
+
+    public GameMemento createMemento(List<Player> players, long currentPlayer) {
+        return new GameMemento(players, currentPlayer);
     }
 }

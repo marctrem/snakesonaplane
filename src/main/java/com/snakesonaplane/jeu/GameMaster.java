@@ -98,7 +98,7 @@ public class GameMaster implements
             this.boardController.setupBoard(this.game.board);
 
 
-            if (this.game.players.get((int) game.playerToPlay).isAi()) {
+            if (this.game.getPlayerList().get((int) game.getPlayerToPlay()).isAi()) {
                 gameLoop();
             } else {
                 onPlayerReadyToPlay();
@@ -121,13 +121,13 @@ public class GameMaster implements
         boolean victory = false;
         victory = game.play();
 
-        while (game.players.get((int) game.playerToPlay).isAi() && !victory) {
+        while (game.getPlayerList().get((int) game.getPlayerToPlay()).isAi() && !victory) {
             victory = game.play();
         }
 
         if (victory) {
             // Todo: stuff to do on victory
-            System.out.println("Player " + game.players.get((int) game.playerToPlay).getName() + " WON !");
+            System.out.println("Player " + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + " WON !");
         } else {
             onPlayerReadyToPlay();
         }

@@ -3,6 +3,8 @@ package com.snakesonaplane.jeu;
 import com.snakesonaplane.exceptions.GameStateOutOfBoundException;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm;
 import com.snakesonaplane.jeu.movealgos.MoveAlgorithm1;
+import com.snakesonaplane.wrappers.UIAbstractFactoryFactoryMethod;
+import com.snakesonaplane.wrappers.UIAbstractFactorySingleton;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,10 +21,13 @@ public class GameTest {
 
     @Before
     public void setUp() {
+        try {
+            UIAbstractFactorySingleton.initialize(UIAbstractFactoryFactoryMethod.UIType.JAVAFX);
+        } catch(RuntimeException e) {}
+
         Player p1, p2, p3;
         this.players = new ArrayList<>();
         MoveAlgorithm algo = new MoveAlgorithm1();
-        Game game;
         Dice dice = new Dice(6);
 
         p1 = new Player("Pierre", true);
@@ -35,15 +40,15 @@ public class GameTest {
 
         this.board = new Board(36, 4, 4);
         this.game = new Game(board, players, algo, dice);
-        this.game.gameStates.add(new GameState(players, 1));
-        this.game.gameStates.add(new GameState(players, 2));
-        this.game.gameStates.add(new GameState(players, 0));
-        this.game.gameStates.add(new GameState(players, 1));
-        this.game.gameStates.add(new GameState(players, 2));
-        this.game.gameStates.add(new GameState(players, 0));
-        this.game.gameStates.add(new GameState(players, 1));
-        this.game.gameStates.add(new GameState(players, 2));
-        this.game.currentGameState = 8;
+        this.game.gameMementos.add(this.game.createMemento(players, 1));
+        this.game.gameMementos.add(this.game.createMemento(players, 2));
+        this.game.gameMementos.add(this.game.createMemento(players, 0));
+        this.game.gameMementos.add(this.game.createMemento(players, 1));
+        this.game.gameMementos.add(this.game.createMemento(players, 2));
+        this.game.gameMementos.add(this.game.createMemento(players, 0));
+        this.game.gameMementos.add(this.game.createMemento(players, 1));
+        this.game.gameMementos.add(this.game.createMemento(players, 2));
+        this.game.currentGameStateIndex = 8;
     }
 
     @Test
@@ -78,7 +83,7 @@ public class GameTest {
         this.game.addCurrentState();
         this.game.addCurrentState();
         this.game.addCurrentState();
-        assertEquals("has 10 states", 10, this.game.gameStates.size());
+        assertEquals("has 10 states", 10, this.game.gameMementos.size());
     }
 
     @Test
@@ -89,8 +94,8 @@ public class GameTest {
         this.game.addCurrentState();
         this.game.addCurrentState();
 
-        for (int i = 0; i < this.game.gameStates.size(); i++) {
-            assertEquals("The list should have been shifted", expected[i], this.game.gameStates.get(i).currentPlayer);
+        for (int i = 0; i < this.game.gameMementos.size(); i++) {
+            assertEquals("The list should have been shifted", expected[i], this.game.gameMementos.get(i).getState().currentPlayer);
         }
     }
 
