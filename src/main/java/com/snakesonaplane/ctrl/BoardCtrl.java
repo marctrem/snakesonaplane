@@ -62,6 +62,7 @@ public class BoardCtrl implements Initializable {
         int lowerSquare = IntMath.sqrt(boardSize, RoundingMode.FLOOR);
         int higherSquare = IntMath.sqrt(boardSize, RoundingMode.CEILING);
 
+
         for (int row = 0; row < higherSquare; row++) {
             for (int col = 0; col < higherSquare && boardSize > 0; col++) {
                 boardSize--;
@@ -71,9 +72,11 @@ public class BoardCtrl implements Initializable {
                 cell.setFill(color);
                 Label label = new Label("" + (row * higherSquare + (col + 1)));
 
-                int xPositionInBoard = (row % 2 == 0) ? col + 1 : higherSquare - col;
-                int yPositionInBoard = higherSquare - row;
+                int xPositionInBoard = (row % 2 == 0) ? col : higherSquare - col - 1;
+                int yPositionInBoard = higherSquare - row - 2;
 
+                System.out.println("x " + xPositionInBoard);
+                System.out.println("y " + yPositionInBoard);
                 this.boardGrid.add(cell, xPositionInBoard, yPositionInBoard);
                 this.boardGrid.add(label, xPositionInBoard, yPositionInBoard);
                 cell.widthProperty().bind(this.boardGrid.widthProperty().divide(higherSquare));
