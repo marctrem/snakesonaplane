@@ -80,12 +80,6 @@ public class BoardCtrl implements Initializable {
                 cell.heightProperty().bind(this.boardGrid.heightProperty().divide(lowerSquare));
             }
         }
-
-
-        for (int cellNumber = 0; cellNumber < graphicalCells.size(); cellNumber++) {
-
-
-        }
     }
 
     public void drawLine(Color color, int fromCell, int toCell) {
