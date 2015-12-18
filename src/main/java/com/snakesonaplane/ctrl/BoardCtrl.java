@@ -28,6 +28,11 @@ public class BoardCtrl implements Initializable {
     private AnchorPane boardAnchorPane;
     @FXML
     private Button playBtn;
+    @FXML
+    private Button undoBtn;
+    @FXML
+    private Button redoBtn;
+
     private List<Rectangle> graphicalCells;
     private GameMaster gameMaster;
 
@@ -36,6 +41,9 @@ public class BoardCtrl implements Initializable {
 
         playBtn.setOnAction(actionEvent -> {
             gameMaster.onDiceRolled();
+
+            undoBtn.setDisable(!gameMaster.isUndoAvailable());
+            redoBtn.setDisable(!gameMaster.isRedoAvailable());
         });
     }
 

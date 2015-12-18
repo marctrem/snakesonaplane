@@ -143,4 +143,18 @@ public class GameMaster implements
     public void onPlayerReadyToPlay() {
         this.boardController.setPlayBtnClickable(true);
     }
+
+    public void onUndoRequested() {
+    }
+
+    public void onRedoRequested() {
+    }
+
+    public boolean isUndoAvailable() {
+        return true;
+    }
+
+    public boolean isRedoAvailable() {
+        return false;
+    }
 }
