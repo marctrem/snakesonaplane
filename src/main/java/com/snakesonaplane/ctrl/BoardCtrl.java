@@ -7,6 +7,7 @@ import com.snakesonaplane.jeu.GameMaster;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -68,10 +69,22 @@ public class BoardCtrl implements Initializable {
                 graphicalCells.add(cell);
                 Color color = ((row + col) % 2 == 0) ? Color.WHITE : Color.WHEAT;
                 cell.setFill(color);
-                this.boardGrid.add(cell, higherSquare - col, higherSquare - row);
+                Label label = new Label("" + (row * higherSquare + (col + 1)));
+
+                int xPositionInBoard = (row % 2 == 0) ? col + 1 : higherSquare - col;
+                int yPositionInBoard = higherSquare - row;
+
+                this.boardGrid.add(cell, xPositionInBoard, yPositionInBoard);
+                this.boardGrid.add(label, xPositionInBoard, yPositionInBoard);
                 cell.widthProperty().bind(this.boardGrid.widthProperty().divide(higherSquare));
                 cell.heightProperty().bind(this.boardGrid.heightProperty().divide(lowerSquare));
             }
+        }
+
+
+        for (int cellNumber = 0; cellNumber < graphicalCells.size(); cellNumber++) {
+
+
         }
     }
 
@@ -86,7 +99,7 @@ public class BoardCtrl implements Initializable {
         line.startYProperty().bind(rectangleFrom.layoutYProperty().add(rectangleFrom.heightProperty().divide(2)));
 
         line.endXProperty().bind(rectangleTo.layoutXProperty().add(rectangleTo.widthProperty().divide(2)));
-        line.endYProperty().bind(rectangleTo.layoutYProperty().add(rectangleTo.widthProperty().divide(2)));
+        line.endYProperty().bind(rectangleTo.layoutYProperty().add(rectangleTo.heightProperty().divide(2)));
 
         this.boardAnchorPane.getChildren().add(line);
 
