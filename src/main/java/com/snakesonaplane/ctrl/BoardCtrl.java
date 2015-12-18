@@ -45,6 +45,9 @@ public class BoardCtrl implements Initializable {
             undoBtn.setDisable(!gameMaster.isUndoAvailable());
             redoBtn.setDisable(!gameMaster.isRedoAvailable());
         });
+
+        undoBtn.setOnAction(actionEvent -> gameMaster.onUndoRequested());
+        redoBtn.setOnAction(actionEvent -> gameMaster.onRedoRequested());
     }
 
     public void setPlayBtnClickable(boolean clickable) {
