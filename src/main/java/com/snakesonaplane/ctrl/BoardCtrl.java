@@ -1,6 +1,6 @@
 package com.snakesonaplane.ctrl;
 
-import com.google.common.math.LongMath;
+import com.google.common.math.IntMath;
 import com.snakesonaplane.jeu.Board;
 import com.snakesonaplane.jeu.BoardElement;
 import com.snakesonaplane.jeu.GameMaster;
@@ -52,10 +52,11 @@ public class BoardCtrl implements Initializable {
     }
 
     public void setupGrid(int boardSize) {
-        graphicalCells = new ArrayList<Rectangle>(boardSize);
+        graphicalCells = new ArrayList<>(boardSize);
 
-        long lowerSquare = LongMath.sqrt(boardSize, RoundingMode.FLOOR);
-        long higherSquare = LongMath.sqrt(boardSize, RoundingMode.CEILING);
+
+        int lowerSquare = IntMath.sqrt(boardSize, RoundingMode.FLOOR);
+        int higherSquare = IntMath.sqrt(boardSize, RoundingMode.CEILING);
 
         for (int row = 0; row < higherSquare; row++) {
             for (int col = 0; col < higherSquare && boardSize > 0; col++) {
@@ -64,7 +65,7 @@ public class BoardCtrl implements Initializable {
                 graphicalCells.add(cell);
                 Color color = ((row + col) % 2 == 0) ? Color.WHITE : Color.WHEAT;
                 cell.setFill(color);
-                this.boardGrid.add(cell, col, row);
+                this.boardGrid.add(cell, higherSquare - col, higherSquare - row);
                 cell.widthProperty().bind(this.boardGrid.widthProperty().divide(higherSquare));
                 cell.heightProperty().bind(this.boardGrid.heightProperty().divide(lowerSquare));
             }
@@ -75,11 +76,14 @@ public class BoardCtrl implements Initializable {
 
         Line line = new Line();
 
-        line.startXProperty().bind(graphicalCells.get(fromCell).layoutXProperty());
-        line.startYProperty().bind(graphicalCells.get(fromCell).layoutYProperty());
+        Rectangle rectangleFrom = graphicalCells.get(fromCell);
+        Rectangle rectangleTo = graphicalCells.get(toCell);
 
-        line.endXProperty().bind(graphicalCells.get(toCell).layoutXProperty());
-        line.endYProperty().bind(graphicalCells.get(toCell).layoutYProperty());
+        line.startXProperty().bind(rectangleFrom.layoutXProperty().add(rectangleFrom.widthProperty().divide(2)));
+        line.startYProperty().bind(rectangleFrom.layoutYProperty().add(rectangleFrom.heightProperty().divide(2)));
+
+        line.endXProperty().bind(rectangleTo.layoutXProperty().add(rectangleTo.widthProperty().divide(2)));
+        line.endYProperty().bind(rectangleTo.layoutYProperty().add(rectangleTo.widthProperty().divide(2)));
 
         this.boardAnchorPane.getChildren().add(line);
 
