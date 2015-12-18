@@ -32,6 +32,10 @@ public class GameMementoManager {
     }
 
     public void addMemento(GameMemento memento) {
+        if (memento.getState().players.get((int) memento.getState().currentPlayer).isAi()) {
+            return;
+        }
+
         this.mementos.add(memento);
 
         this.currentGameStateIndex++;

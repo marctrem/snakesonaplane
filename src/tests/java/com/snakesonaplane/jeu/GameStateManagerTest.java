@@ -27,9 +27,9 @@ public class GameStateManagerTest {
         Player p1, p2, p3;
         this.players = new ArrayList<>();
 
-        p1 = new Player("Pierre", true);
-        p2 = new Player("Paul", true);
-        p3 = new Player("Luc", true);
+        p1 = new Player("Pierre", false);
+        p2 = new Player("Paul", false);
+        p3 = new Player("Luc", false);
 
         this.players.add(p1);
         this.players.add(p2);
@@ -190,11 +190,11 @@ public class GameStateManagerTest {
 
     @Test
     public void testGameStateShifting() {
-        long expected[] = {2, 0, 1, 2, 0, 1, 2, 4, 5, 6};
+        long expected[] = {2, 0, 1, 2, 0, 1, 2, 0, 1, 2};
 
-        this.game.gameMementoManager.addMemento(this.game.createMemento(players, 4));
-        this.game.gameMementoManager.addMemento(this.game.createMemento(players, 5));
-        this.game.gameMementoManager.addMemento(this.game.createMemento(players, 6));
+        this.game.gameMementoManager.addMemento(this.game.createMemento(players, 0));
+        this.game.gameMementoManager.addMemento(this.game.createMemento(players, 1));
+        this.game.gameMementoManager.addMemento(this.game.createMemento(players, 2));
 
         for (int i = 0; i < this.game.gameMementoManager.mementos.size(); i++) {
             assertEquals("The list should have been shifted", expected[i],

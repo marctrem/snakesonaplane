@@ -40,7 +40,7 @@ public class Game {
         this.currentGameState = memento.getState();
 
         this.gameMementoManager = new GameMementoManager();
-        this.gameMementoManager.addMemento(memento);
+        this.gameMementoManager.addMemento(new GameMemento(players, 0));
     }
 
     public boolean play() {
@@ -54,6 +54,7 @@ public class Game {
         pos = this.moveAlgorithm.getMove(pos, this.board.numberOfCells, diceRoll);
         player.setPosition(this.board.getMove(pos));
         System.out.println("Arrival cell : " + player.getPosition());
+        System.out.println();
 
         if (player.getPosition() == this.board.numberOfCells) {
             return true;
@@ -84,6 +85,6 @@ public class Game {
     }
 
     public void setMemento(GameMemento memento) {
-        this.currentGameState = memento.getState();
+        this.currentGameState = new GameState(memento.getState().players, memento.getState().currentPlayer);
     }
 }
