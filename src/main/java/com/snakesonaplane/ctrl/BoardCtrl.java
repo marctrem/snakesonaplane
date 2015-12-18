@@ -4,6 +4,7 @@ import com.google.common.math.IntMath;
 import com.snakesonaplane.jeu.Board;
 import com.snakesonaplane.jeu.BoardElement;
 import com.snakesonaplane.jeu.GameMaster;
+import com.snakesonaplane.jeu.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,14 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.math.RoundingMode;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class BoardCtrl implements Initializable {
@@ -34,6 +34,8 @@ public class BoardCtrl implements Initializable {
     @FXML
     private Button redoBtn;
 
+    private Map<Player, Circle> playerTokens;
+
     private List<Rectangle> graphicalCells;
     private GameMaster gameMaster;
 
@@ -42,13 +44,25 @@ public class BoardCtrl implements Initializable {
 
         playBtn.setOnAction(actionEvent -> {
             gameMaster.onDiceRolled();
+            updateButtonState();
 
-            undoBtn.setDisable(!gameMaster.isUndoAvailable());
-            redoBtn.setDisable(!gameMaster.isRedoAvailable());
         });
 
-        undoBtn.setOnAction(actionEvent -> gameMaster.onUndoRequested());
-        redoBtn.setOnAction(actionEvent -> gameMaster.onRedoRequested());
+        undoBtn.setOnAction(actionEvent -> {
+            gameMaster.onUndoRequested();
+            updateButtonState();
+        });
+        redoBtn.setOnAction(actionEvent -> {
+            gameMaster.onRedoRequested();
+            updateButtonState();
+        });
+
+        playerTokens = new HashMap<>();
+    }
+
+    private void updateButtonState() {
+        undoBtn.setDisable(!gameMaster.isUndoAvailable());
+        redoBtn.setDisable(!gameMaster.isRedoAvailable());
     }
 
     public void setPlayBtnClickable(boolean clickable) {
