@@ -17,10 +17,10 @@ public class GameMementoManager {
     }
 
     public GameMemento getPreviousMemento() throws GameStateOutOfBoundException {
-        if (this.currentGameStateIndex == -1) {
+        if (this.currentGameStateIndex <= 0) {
             throw new GameStateOutOfBoundException();
         }
-        return this.mementos.get(this.currentGameStateIndex--);
+        return this.mementos.get(--this.currentGameStateIndex);
     }
 
     public GameMemento getNextMemento() throws GameStateOutOfBoundException {
@@ -51,6 +51,14 @@ public class GameMementoManager {
             this.mementos = new_list;
             this.currentGameStateIndex = MAX_STATES - 1;
         }
+    }
+
+    public boolean hasPreviousMemento() {
+        return this.currentGameStateIndex > 0;
+    }
+
+    public boolean hasNextMemento() {
+        return this.currentGameStateIndex < (this.mementos.size() - 1);
     }
 
 }

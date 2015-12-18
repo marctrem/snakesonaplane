@@ -73,6 +73,37 @@ public class GameStateManagerTest {
     }
 
     @Test
+    public void testHasPreviousMemento() {
+        for (int i = 0; i < 8; i++) {
+            assertTrue("has previous memento", this.game.gameMementoManager.hasPreviousMemento());
+            try {
+                this.game.gameMementoManager.getPreviousMemento();
+            } catch (GameStateOutOfBoundException e) {}
+        }
+        assertFalse("has no more previous memento", this.game.gameMementoManager.hasPreviousMemento());
+    }
+
+    @Test
+    public void testHasNextMemento() {
+        assertFalse("has no next memento", this.game.gameMementoManager.hasNextMemento());
+
+        for (int i = 0; i < 3; i++) {
+            try {
+                this.game.gameMementoManager.getPreviousMemento();
+            } catch (GameStateOutOfBoundException e) {}
+        }
+
+        for (int i = 0; i < 3; i++) {
+            assertTrue("has next memento", this.game.gameMementoManager.hasNextMemento());
+            try {
+                this.game.gameMementoManager.getNextMemento();
+            } catch (GameStateOutOfBoundException e) {}
+        }
+        assertFalse("has no next memento", this.game.gameMementoManager.hasNextMemento());
+
+    }
+
+    @Test
     public void testPreviousState() {
         Game.GameMemento mementos[] = {null, null, null};
 
@@ -86,7 +117,7 @@ public class GameStateManagerTest {
         }
 
 
-        int expected[][] = {{10, 12, 9}, {10, 4, 9}, {8, 4, 9}};
+        int expected[][] = {{10, 4, 9}, {8, 4, 9}, {8, 4, 1}};
 
         for (int i = 0; i < mementos.length; i++) {
             for (int j = 0; j < expected.length; j++) {
