@@ -46,14 +46,81 @@ public class GameStateManagerTest {
         Board board = new Board(100, 2, 2);
 
         this.game = new Game(board, this.players, algo, dice);
+        this.players.get(0).setPosition(5);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 1));
+        this.players.get(1).setPosition(3);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 2));
+        this.players.get(2).setPosition(1);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 0));
+        this.players.get(0).setPosition(8);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 1));
+        this.players.get(1).setPosition(4);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 2));
+        this.players.get(2).setPosition(9);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 0));
+        this.players.get(0).setPosition(10);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 1));
+        this.players.get(1).setPosition(12);
+
         this.game.gameMementoManager.addMemento(this.game.createMemento(players, 2));
+    }
+
+    @Test
+    public void testPreviousState() {
+        Game.GameMemento mementos[] = {null, null, null};
+
+
+        try {
+            mementos[0] = this.game.gameMementoManager.getPreviousMemento();
+            mementos[1] = this.game.gameMementoManager.getPreviousMemento();
+            mementos[2] = this.game.gameMementoManager.getPreviousMemento();
+        } catch (GameStateOutOfBoundException e) {
+            e.printStackTrace();
+        }
+
+
+        int expected[][] = {{10, 12, 9}, {10, 4, 9}, {8, 4, 9}};
+
+        for (int i = 0; i < mementos.length; i++) {
+            for (int j = 0; j < expected.length; j++) {
+                assertEquals("should load the last state", expected[i][j], mementos[i].getState().players.get(j).getPosition());
+            }
+
+        }
+    }
+
+    @Test
+    public void testNextState() {
+        Game.GameMemento mementos[] = {null, null, null};
+
+
+        try {
+            for (int i = 0; i < 3; i++) {
+                this.game.gameMementoManager.getPreviousMemento();
+            }
+            for (int i = 0; i < 3; i++) {
+                mementos[i] = this.game.gameMementoManager.getNextMemento();
+            }
+        } catch (GameStateOutOfBoundException e) {
+            e.printStackTrace();
+        }
+
+
+        int expected[][] = {{8, 4, 9}, {10, 4, 9}, {10, 12, 9}};
+
+        for (int i = 0; i < mementos.length; i++) {
+            for (int j = 0; j < expected.length; j++) {
+                assertEquals("should load the last state", expected[i][j], mementos[i].getState().players.get(j).getPosition());
+            }
+
+        }
     }
 
     @Test
