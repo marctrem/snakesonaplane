@@ -12,6 +12,7 @@ public class Game {
     GameMementoManager gameMementoManager;
     Dice dice;
     MoveAlgorithm moveAlgorithm;
+    boolean gameWon = false;
 
     Game(Board board, List<Player> players, MoveAlgorithm moveAlgorithm, Dice dice) {
 
@@ -41,6 +42,7 @@ public class Game {
         System.out.println();
 
         if (player.getPosition() == this.board.numberOfCells - 1) {
+            this.gameWon = true;
             return true;
         }
 
@@ -67,6 +69,10 @@ public class Game {
 
     public void setMemento(GameMemento memento) {
         this.currentGameState = new GameState(memento.getState().players, memento.getState().currentPlayer);
+    }
+
+    public boolean isGameWon() {
+        return this.gameWon;
     }
 
     public interface PlayerReadyCallback {

@@ -128,9 +128,9 @@ public class GameMaster implements
         } while (game.getPlayerList().get((int) game.getPlayerToPlay()).isAi() && !victory);
 
         if (victory) {
-            // Todo: stuff to do on victory
             System.out.println("Player " + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + " WON !");
             this.boarControllerDelegate.setStatusMessage("Player \"" + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + "\" won the game \uD83D\uDE00 !");
+            this.boarControllerDelegate.disableAllButtons();
         } else {
             onPlayerReadyToPlay();
         }
@@ -164,10 +164,16 @@ public class GameMaster implements
     }
 
     public boolean isUndoAvailable() {
-        return this.game.gameMementoManager.hasPreviousMemento();
+        if (!this.game.isGameWon()) {
+            return this.game.gameMementoManager.hasPreviousMemento();
+        }
+        return false;
     }
 
     public boolean isRedoAvailable() {
-        return this.game.gameMementoManager.hasNextMemento();
+        if (!this.game.isGameWon()) {
+            return this.game.gameMementoManager.hasNextMemento();
+        }
+        return false;
     }
 }
