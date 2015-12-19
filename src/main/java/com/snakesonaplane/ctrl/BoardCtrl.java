@@ -100,7 +100,7 @@ public class BoardCtrl implements Initializable {
                 Label label = new Label("" + (row * higherSquare + (col + 1)));
 
                 int xPositionInBoard = (row % 2 == 0) ? col : higherSquare - col - 1;
-                int yPositionInBoard = higherSquare - row - 2;
+                int yPositionInBoard = higherSquare - row - 1;
 
                 this.boardGrid.add(cell, xPositionInBoard, yPositionInBoard);
                 this.boardGrid.add(label, xPositionInBoard, yPositionInBoard);
