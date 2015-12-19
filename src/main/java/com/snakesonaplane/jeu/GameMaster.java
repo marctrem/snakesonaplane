@@ -150,12 +150,14 @@ public class GameMaster implements
     public void onUndoRequested() {
         try {
             this.game.setMemento(this.game.gameMementoManager.getPreviousMemento());
+            boarControllerDelegate.updatePlayersPosition(game.getPlayerList());
         } catch (GameStateOutOfBoundException e) {}
     }
 
     public void onRedoRequested() {
         try {
             this.game.setMemento(this.game.gameMementoManager.getNextMemento());
+            boarControllerDelegate.updatePlayersPosition(game.getPlayerList());
         } catch (GameStateOutOfBoundException e) {}
     }
 

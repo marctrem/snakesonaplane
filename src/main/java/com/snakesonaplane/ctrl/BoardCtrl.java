@@ -126,10 +126,12 @@ public class BoardCtrl implements Initializable {
 
                 circle.centerXProperty().bind(cell.layoutXProperty());
                 circle.centerYProperty().bind(cell.layoutYProperty());
-                circle.setFill((Paint) player.getColor().getRawColorObject());
-                circle.setStroke(Color.BLACK);
+
 
                 if (!this.boardAnchorPane.getChildren().contains(circle)) {
+                    circle.setFill((Paint) player.getColor().getRawColorObject());
+                    circle.setStroke(Color.BLACK);
+                    circle.setOpacity(0.7);
                     this.boardAnchorPane.getChildren().add(circle);
                 }
                 circle.toFront();
