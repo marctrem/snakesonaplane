@@ -19,7 +19,10 @@ import javafx.scene.shape.Rectangle;
 
 import java.math.RoundingMode;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.WeakHashMap;
 
 
 public class BoardCtrl implements Initializable {
@@ -37,7 +40,7 @@ public class BoardCtrl implements Initializable {
     @FXML
     private Button redoBtn;
 
-    private Map<Player, Circle> playerTokens;
+    private WeakHashMap<Player, Circle> playerTokens;
 
     private List<Rectangle> graphicalCells;
     private GameMaster gameMaster;
@@ -60,7 +63,7 @@ public class BoardCtrl implements Initializable {
             updateButtonState();
         });
 
-        playerTokens = new HashMap<>();
+        playerTokens = new WeakHashMap<>();
     }
 
     private void updateButtonState() {
