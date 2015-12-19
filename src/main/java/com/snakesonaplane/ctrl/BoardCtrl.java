@@ -124,8 +124,8 @@ public class BoardCtrl implements Initializable {
                     playerTokens.put(player, circle);
                 }
 
-                circle.centerXProperty().bind(cell.layoutXProperty().add(cell.widthProperty().multiply(players.indexOf(player)).divide(players.size())).add(cell.widthProperty().divide(4)));
-                circle.centerYProperty().bind(cell.layoutYProperty().add(cell.heightProperty().multiply(players.indexOf(player)).divide(players.size())).add(cell.heightProperty().divide(4)));
+                circle.centerXProperty().bind(cell.layoutXProperty().add(cell.widthProperty().multiply(players.indexOf(player)).divide(players.size() * 2)).add(cell.widthProperty().divide(4)));
+                circle.centerYProperty().bind(cell.layoutYProperty().add(cell.heightProperty().multiply(players.indexOf(player)).divide(players.size() * 2)).add(cell.heightProperty().divide(4)));
 
 
                 if (!this.boardAnchorPane.getChildren().contains(circle)) {
