@@ -13,22 +13,6 @@ public class Game {
     Dice dice;
     MoveAlgorithm moveAlgorithm;
 
-    class GameMemento {
-        private GameState state;
-
-        private GameMemento(List<Player> players, long currentPlayer) {
-            this.state = new GameState(players, currentPlayer);
-        }
-
-        GameState getState() {
-            return this.state;
-        }
-
-        void setState(GameState state) {
-            this.state = state;
-        }
-    }
-
     Game(Board board, List<Player> players, MoveAlgorithm moveAlgorithm, Dice dice) {
 
         this.board = board;
@@ -65,19 +49,16 @@ public class Game {
 
         this.gameMementoManager.addMemento(this.createMemento(this.getPlayerList(), this.getPlayerToPlay()));
 
+
         return false;
     }
-
 
     public long getPlayerToPlay() {
         return this.currentGameState.currentPlayer;
     }
+
     public List<Player> getPlayerList() {
         return this.currentGameState.players;
-    }
-
-    public interface PlayerReadyCallback {
-        void onPlayerReadyToPlay();
     }
 
     public GameMemento createMemento(List<Player> players, long currentPlayer) {
@@ -86,5 +67,25 @@ public class Game {
 
     public void setMemento(GameMemento memento) {
         this.currentGameState = new GameState(memento.getState().players, memento.getState().currentPlayer);
+    }
+
+    public interface PlayerReadyCallback {
+        void onPlayerReadyToPlay();
+    }
+
+    class GameMemento {
+        private GameState state;
+
+        private GameMemento(List<Player> players, long currentPlayer) {
+            this.state = new GameState(players, currentPlayer);
+        }
+
+        GameState getState() {
+            return this.state;
+        }
+
+        void setState(GameState state) {
+            this.state = state;
+        }
     }
 }

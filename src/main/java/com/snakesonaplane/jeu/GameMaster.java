@@ -24,7 +24,7 @@ public class GameMaster implements
 {
 
     private Stage gameStage;
-    private BoardCtrl boardController;
+    private BoardCtrl boarControllerDelegate;
 
     private Game game;
 
@@ -63,8 +63,8 @@ public class GameMaster implements
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("board.fxml"));
 
             Parent root = loader.load();
-            this.boardController = loader.getController();
-            this.boardController.setGameMaster(this);
+            this.boarControllerDelegate = loader.getController();
+            this.boarControllerDelegate.setGameMaster(this);
             this.gameStage.setTitle("Snakes on a (two-dimensional) plane");
             this.gameStage.setScene(new Scene(root, 800, 600));
 
@@ -96,7 +96,7 @@ public class GameMaster implements
             spawnBoardWindow();
 
 
-            this.boardController.setupBoard(this.game.board);
+            this.boarControllerDelegate.setupBoard(this.game.board);
 
 
             if (this.game.getPlayerList().get((int) game.getPlayerToPlay()).isAi()) {
@@ -120,11 +120,12 @@ public class GameMaster implements
 
     public void gameLoop() {
         boolean victory = false;
-        victory = game.play();
 
-        while (game.getPlayerList().get((int) game.getPlayerToPlay()).isAi() && !victory) {
+        do {
             victory = game.play();
-        }
+            boarControllerDelegate.updatePlayersPosition(game.getPlayerList());
+
+        } while (game.getPlayerList().get((int) game.getPlayerToPlay()).isAi() && !victory);
 
         if (victory) {
             // Todo: stuff to do on victory
@@ -134,15 +135,16 @@ public class GameMaster implements
         }
     }
 
+
     @Override
     public void onDiceRolled() {
-        this.boardController.setPlayBtnClickable(false);
+        this.boarControllerDelegate.setPlayBtnClickable(false);
         gameLoop();
     }
 
     @Override
     public void onPlayerReadyToPlay() {
-        this.boardController.setPlayBtnClickable(true);
+        this.boarControllerDelegate.setPlayBtnClickable(true);
     }
 
     public void onUndoRequested() {

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -22,6 +23,8 @@ import java.util.*;
 
 
 public class BoardCtrl implements Initializable {
+
+    private static final float TOKEN_RADIUS = 20;
 
     @FXML
     private GridPane boardGrid;
@@ -97,6 +100,42 @@ public class BoardCtrl implements Initializable {
                 cell.heightProperty().bind(this.boardGrid.heightProperty().divide(lowerSquare));
             }
         }
+    }
+
+    public void updatePlayersPosition(List<Player> players) {
+        System.out.println("UPDATE");
+
+
+        for (Player player : players) {
+
+
+            if (player.getPosition() == -1) {
+                // Remove player from board
+                Circle circle = playerTokens.get(player);
+                if (circle != null) {
+                    this.boardAnchorPane.getChildren().remove(circle);
+                }
+            } else {
+                Rectangle cell = graphicalCells.get(((int) player.getPosition()));
+                Circle circle;
+
+                if ((circle = playerTokens.get(player)) == null) {
+                    circle = new Circle(TOKEN_RADIUS);
+                    playerTokens.put(player, circle);
+                }
+
+                circle.centerXProperty().bind(cell.layoutXProperty());
+                circle.centerYProperty().bind(cell.layoutYProperty());
+                circle.setFill((Paint) player.getColor().getRawColorObject());
+                circle.setStroke(Color.BLACK);
+
+                if (!this.boardAnchorPane.getChildren().contains(circle)) {
+                    this.boardAnchorPane.getChildren().add(circle);
+                }
+                circle.toFront();
+            }
+        }
+
     }
 
     public void drawLine(Color color, int fromCell, int toCell) {
