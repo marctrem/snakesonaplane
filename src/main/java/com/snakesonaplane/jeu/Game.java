@@ -40,7 +40,7 @@ public class Game {
         System.out.println("Arrival cell : " + player.getPosition());
         System.out.println();
 
-        if (player.getPosition() == this.board.numberOfCells) {
+        if (player.getPosition() == this.board.numberOfCells - 1) {
             return true;
         }
 
