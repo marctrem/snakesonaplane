@@ -41,7 +41,7 @@ public class GameMementoManager {
         this.currentGameStateIndex++;
 
         // Erase next states
-        for (long i = this.currentGameStateIndex; i < MAX_STATES; i++) {
+        for (int i = this.currentGameStateIndex + 1; i < this.mementos.size(); i++) {
             this.mementos.remove(i);
         }
 
