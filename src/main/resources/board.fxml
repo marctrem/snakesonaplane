@@ -2,18 +2,19 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.11705685618729098" maxHeight="-Infinity"
-           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-           xmlns="http://javafx.com/javafx/8.0.65" fx:controller="com.snakesonaplane.ctrl.BoardCtrl">
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.2638190954773869" maxHeight="-Infinity"
+           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0"
+           prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="com.snakesonaplane.ctrl.BoardCtrl">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
                 <Button fx:id="playBtn" disable="true" layoutX="10.0" layoutY="14.0" mnemonicParsing="false"
                         text="Play"/>
-                <Button fx:id="undoBtn" disable="true" layoutX="7.0" layoutY="40.0" mnemonicParsing="false"
+                <Button fx:id="undoBtn" disable="true" layoutX="56.0" layoutY="14.0" mnemonicParsing="false"
                         text="Undo"/>
-                <Button fx:id="redoBtn" disable="true" layoutX="7.0" layoutY="66.0" mnemonicParsing="false"
+                <Button fx:id="redoBtn" disable="true" layoutX="108.0" layoutY="14.0" mnemonicParsing="false"
                         text="Redo"/>
+                <Label fx:id="statusLbl" layoutX="175.0" layoutY="18.0" text="Status"/>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="boardAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -27,7 +28,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                 </GridPane>
-                <Label fx:id="statusLbl" text="Status"/>
             </children>
         </AnchorPane>
     </items>

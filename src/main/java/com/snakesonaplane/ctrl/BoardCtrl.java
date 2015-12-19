@@ -76,6 +76,12 @@ public class BoardCtrl implements Initializable {
         this.playBtn.setDisable(!clickable);
     }
 
+    public void disableAllButtons() {
+        undoBtn.setDisable(true);
+        redoBtn.setDisable(true);
+        playBtn.setDisable(true);
+    }
+
     public void setupGrid(int boardSize) {
         graphicalCells = new ArrayList<>(boardSize);
 
@@ -96,8 +102,6 @@ public class BoardCtrl implements Initializable {
                 int xPositionInBoard = (row % 2 == 0) ? col : higherSquare - col - 1;
                 int yPositionInBoard = higherSquare - row - 2;
 
-                System.out.println("x " + xPositionInBoard);
-                System.out.println("y " + yPositionInBoard);
                 this.boardGrid.add(cell, xPositionInBoard, yPositionInBoard);
                 this.boardGrid.add(label, xPositionInBoard, yPositionInBoard);
                 cell.widthProperty().bind(this.boardGrid.widthProperty().divide(higherSquare));
@@ -111,7 +115,6 @@ public class BoardCtrl implements Initializable {
     }
 
     public void updatePlayersPosition(List<Player> players) {
-        System.out.println("UPDATE");
 
         tokensOnBoard.forEach(circle1 -> this.boardAnchorPane.getChildren().remove(circle1));
 
