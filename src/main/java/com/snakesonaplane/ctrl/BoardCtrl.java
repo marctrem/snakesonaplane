@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.WeakHashMap;
 
 
 public class BoardCtrl implements Initializable {
@@ -40,7 +39,7 @@ public class BoardCtrl implements Initializable {
     @FXML
     private Button redoBtn;
 
-    private WeakHashMap<Player, Circle> playerTokens;
+    private List<Circle> tokensOnBoard;
 
     private List<Rectangle> graphicalCells;
     private GameMaster gameMaster;
@@ -63,7 +62,7 @@ public class BoardCtrl implements Initializable {
             updateButtonState();
         });
 
-        playerTokens = new WeakHashMap<>();
+        tokensOnBoard = new ArrayList<>();
     }
 
     private void updateButtonState() {
@@ -108,28 +107,19 @@ public class BoardCtrl implements Initializable {
     public void updatePlayersPosition(List<Player> players) {
         System.out.println("UPDATE");
 
+        tokensOnBoard.forEach(circle1 -> this.boardAnchorPane.getChildren().remove(circle1));
 
         for (Player player : players) {
 
+            if (player.getPosition() >= 0) {
 
-            if (player.getPosition() == -1) {
-                // Remove player from board
-                Circle circle = playerTokens.get(player);
-                if (circle != null) {
-                    this.boardAnchorPane.getChildren().remove(circle);
-                }
-            } else {
+
                 Rectangle cell = graphicalCells.get(((int) player.getPosition()));
-                Circle circle;
-
-                if ((circle = playerTokens.get(player)) == null) {
-                    circle = new Circle(TOKEN_RADIUS);
-                    playerTokens.put(player, circle);
-                }
+                Circle circle = new Circle(TOKEN_RADIUS);
+                tokensOnBoard.add(circle);
 
                 circle.centerXProperty().bind(cell.layoutXProperty().add(cell.widthProperty().multiply(players.indexOf(player)).divide(players.size() * 2)).add(cell.widthProperty().divide(4)));
                 circle.centerYProperty().bind(cell.layoutYProperty().add(cell.heightProperty().multiply(players.indexOf(player)).divide(players.size() * 2)).add(cell.heightProperty().divide(4)));
-
 
                 if (!this.boardAnchorPane.getChildren().contains(circle)) {
                     circle.setFill((Paint) player.getColor().getRawColorObject());
@@ -140,7 +130,6 @@ public class BoardCtrl implements Initializable {
                 circle.toFront();
             }
         }
-
     }
 
     public void drawLine(Color color, int fromCell, int toCell) {
