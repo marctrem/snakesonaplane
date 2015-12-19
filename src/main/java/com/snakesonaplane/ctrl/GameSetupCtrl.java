@@ -24,6 +24,8 @@ import java.util.WeakHashMap;
 
 public class GameSetupCtrl implements Initializable {
 
+    private final static int MAX_PLAYERS = 6;
+
     private GameMaster gameMaster;
     @FXML
     private Button playBtn;
@@ -59,7 +61,9 @@ public class GameSetupCtrl implements Initializable {
         playBtn.setOnAction(actionEvent -> this.gameMaster.onGameSetupCompleted(this.playerList, (this.algoSelectionList.getValue()), this.numberOfFacesList.getValue()));
 
         addPlayerBtn.setOnMouseClicked(actionEvent -> {
-            playerList.add(new Player("", false));
+            if (playerList.size() < MAX_PLAYERS) {
+                playerList.add(new Player("", false));
+            }
             System.out.println(playerList);
         });
 
