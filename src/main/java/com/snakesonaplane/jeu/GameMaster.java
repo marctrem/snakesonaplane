@@ -130,7 +130,7 @@ public class GameMaster implements
         if (victory) {
             // Todo: stuff to do on victory
             System.out.println("Player " + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + " WON !");
-            this.boarControllerDelegate.setStatusMessage("Player \"" + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + "\" won the game :D !");
+            this.boarControllerDelegate.setStatusMessage("Player \"" + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + "\" won the game \uD83D\uDE00 !");
         } else {
             onPlayerReadyToPlay();
         }
