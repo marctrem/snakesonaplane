@@ -45,7 +45,7 @@ public class Board {
         List<Integer> freeCells = new ArrayList<>();
         List<Integer> testSnake = new ArrayList<>((int) this.numberOfSnakes);
 
-        for (int i = 0; i < this.numberOfCells; i++) {
+        for (int i = 0; i < this.numberOfCells - 1; i++) {
             freeCells.add(i);
         }
 
