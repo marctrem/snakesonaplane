@@ -89,9 +89,12 @@ public class BoardCtrl implements Initializable {
         int lowerSquare = IntMath.sqrt(boardSize, RoundingMode.FLOOR);
         int higherSquare = IntMath.sqrt(boardSize, RoundingMode.CEILING);
 
+        int gridWidth = higherSquare;
+        int gridHeight = IntMath.divide(boardSize, higherSquare, RoundingMode.CEILING);
 
-        for (int row = 0; row < higherSquare; row++) {
-            for (int col = 0; col < higherSquare && boardSize > 0; col++) {
+
+        for (int row = 0; row < gridHeight; row++) {
+            for (int col = 0; col < gridWidth && boardSize > 0; col++) {
                 boardSize--;
                 Rectangle cell = new Rectangle();
                 graphicalCells.add(cell);
@@ -99,8 +102,8 @@ public class BoardCtrl implements Initializable {
                 cell.setFill(color);
                 Label label = new Label("" + (row * higherSquare + (col + 1)));
 
-                int xPositionInBoard = (row % 2 == 0) ? col : higherSquare - col - 1;
-                int yPositionInBoard = higherSquare - row - 1;
+                int xPositionInBoard = (row % 2 == 0) ? col : (gridWidth - col - 1);
+                int yPositionInBoard = gridHeight - row - 1;
 
                 this.boardGrid.add(cell, xPositionInBoard, yPositionInBoard);
                 this.boardGrid.add(label, xPositionInBoard, yPositionInBoard);
