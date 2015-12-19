@@ -130,6 +130,7 @@ public class GameMaster implements
         if (victory) {
             // Todo: stuff to do on victory
             System.out.println("Player " + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + " WON !");
+            this.boarControllerDelegate.setStatusMessage("Player \"" + game.getPlayerList().get((int) game.getPlayerToPlay()).getName() + "\" won the game :D !");
         } else {
             onPlayerReadyToPlay();
         }
@@ -144,6 +145,7 @@ public class GameMaster implements
 
     @Override
     public void onPlayerReadyToPlay() {
+        boarControllerDelegate.setStatusMessage("It's \"" + game.getPlayerList().get(((int) game.getPlayerToPlay())).getName() + "\"'s turn to play.");
         this.boarControllerDelegate.setPlayBtnClickable(true);
     }
 

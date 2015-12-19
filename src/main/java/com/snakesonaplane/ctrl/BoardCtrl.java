@@ -38,6 +38,8 @@ public class BoardCtrl implements Initializable {
     private Button undoBtn;
     @FXML
     private Button redoBtn;
+    @FXML
+    private Label statusLbl;
 
     private List<Circle> tokensOnBoard;
 
@@ -102,6 +104,10 @@ public class BoardCtrl implements Initializable {
                 cell.heightProperty().bind(this.boardGrid.heightProperty().divide(lowerSquare));
             }
         }
+    }
+
+    public void setStatusMessage(String message) {
+        this.statusLbl.setText(message);
     }
 
     public void updatePlayersPosition(List<Player> players) {
