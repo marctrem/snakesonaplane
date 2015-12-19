@@ -98,7 +98,7 @@ public class BoardCtrl implements Initializable {
                 boardSize--;
                 Rectangle cell = new Rectangle();
                 graphicalCells.add(cell);
-                Color color = ((row + col) % 2 == 0) ? Color.WHITE : Color.WHEAT;
+                Color color = (boardSize % 2 == 0) ? Color.WHITE : Color.WHEAT;
                 cell.setFill(color);
                 Label label = new Label("" + (row * higherSquare + (col + 1)));
 
