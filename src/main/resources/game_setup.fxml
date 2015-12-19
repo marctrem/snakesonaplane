@@ -33,7 +33,7 @@
                             </items>
                         </SplitPane>
                         <Button fx:id="addPlayerBtn" mnemonicParsing="false" text="Add"/>
-                        <Button fx:id="removePlayerBtn" mnemonicParsing="false" text="Remove"/>
+                        <Button fx:id="removePlayerBtn" disable="true" mnemonicParsing="false" text="Remove"/>
                         <Button fx:id="playBtn" mnemonicParsing="false" text="Play"/>
                     </children>
                 </HBox>

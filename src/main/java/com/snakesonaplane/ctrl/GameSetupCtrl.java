@@ -25,6 +25,7 @@ import java.util.WeakHashMap;
 public class GameSetupCtrl implements Initializable {
 
     private final static int MAX_PLAYERS = 6;
+    private final static int MIN_PLAYERS = 2;
 
     private GameMaster gameMaster;
     @FXML
@@ -60,23 +61,39 @@ public class GameSetupCtrl implements Initializable {
 
         playBtn.setOnAction(actionEvent -> this.gameMaster.onGameSetupCompleted(this.playerList, (this.algoSelectionList.getValue()), this.numberOfFacesList.getValue()));
 
+        playerListView.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> updateAddRemoveButtons());
+
+
         addPlayerBtn.setOnMouseClicked(actionEvent -> {
             if (playerList.size() < MAX_PLAYERS) {
                 playerList.add(new Player("", false));
             }
+            updateAddRemoveButtons();
             System.out.println(playerList);
         });
 
 
         removePlayerBtn.setOnAction(actionEvent -> Platform.runLater(() -> {
-
-            int itemCount = playerList.size();
-
-            if (itemCount > 2) {
+            if (playerList.size() > MIN_PLAYERS) {
                 playerList.remove(playerListView.getSelectionModel().getSelectedItem());
             }
+            updateAddRemoveButtons();
             System.out.println(playerList);
         }));
+    }
+
+    private void updateAddRemoveButtons() {
+        if (playerList.size() == 2 || playerListView.getSelectionModel().getSelectedItem() == null) {
+            removePlayerBtn.setDisable(true);
+        } else {
+            removePlayerBtn.setDisable(false);
+        }
+
+        if (playerList.size() == 6) {
+            addPlayerBtn.setDisable(true);
+        } else {
+            addPlayerBtn.setDisable(false);
+        }
     }
 
     public GameSetupCtrl setGameMaster(GameMaster gameMaster) {
